@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="480.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.LoginController">
+   <children>
+      <BorderPane prefHeight="571.0" prefWidth="752.0">
+         <left>
+            <AnchorPane prefHeight="470.0" prefWidth="326.0" style="-fx-background-color: #1aa3ff;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="99.0" prefHeight="66.0" prefWidth="320.0" text="MoThor" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Segoe UI Black" size="36.0" />
+                     </font>
+                  </Label>
+                  <Line endX="212.0" layoutX="100.0" layoutY="165.0" startX="-84.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="3.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="270.0" prefHeight="88.0" prefWidth="290.0" text="FEEL THE TRUE SPIRIT OF ICELAND WITH OUR OFFROAD CARS" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Segoe UI Black" size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </left>
+         <center>
+            <AnchorPane prefHeight="470.0" prefWidth="430.0" style="-fx-background-color: #e6f5ff;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" layoutX="139.0" layoutY="58.0" prefHeight="28.0" prefWidth="152.0" text="Secure login" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="Segoe UI Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="9.0" layoutY="167.0" prefHeight="28.0" prefWidth="123.0" text="Username" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="14.0" layoutY="221.0" prefHeight="28.0" prefWidth="118.0" text="Password" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="22.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="loginButton" alignment="CENTER" layoutX="22.0" layoutY="285.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="42.0" prefWidth="372.0" style="-fx-background-color: #1aa3ff;" text="Login" textFill="WHITE" textOverrun="CLIP">
+                     <font>
+                        <Font name="Segoe UI Black" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="exitButton" alignment="CENTER" layoutX="23.0" layoutY="373.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="42.0" prefWidth="372.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE" textOverrun="CLIP">
+                     <font>
+                        <Font name="Segoe UI Black" size="14.0" />
+                     </font>
+                  </Button>
+                  <TextField fx:id="loginUsernameField" layoutX="133.0" layoutY="169.0" prefHeight="25.0" prefWidth="266.0" promptText="Type your login here" />
+                  <PasswordField fx:id="loginPasswordField" layoutX="134.0" layoutY="220.0" prefHeight="28.0" prefWidth="265.0" promptText="Type your password here" />
+                  <Button fx:id="registerButton" alignment="CENTER" layoutX="251.0" layoutY="434.0" mnemonicParsing="false" onAction="#registerButtonOnAction" prefHeight="12.0" prefWidth="148.0" style="-fx-background-color: #1aa3ff;" text="Register" textFill="WHITE" textOverrun="CLIP">
+                     <font>
+                        <Font name="Segoe UI Black" size="10.0" />
+                     </font>
+                  </Button>
+                  <Label alignment="CENTER" layoutX="9.0" layoutY="431.0" prefHeight="28.0" prefWidth="231.0" text="You don't have an account? Register here:" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="loginMessageLabel" alignment="CENTER" layoutX="51.0" layoutY="94.0" prefHeight="43.0" prefWidth="345.0" textAlignment="CENTER" textFill="#1aa3ff">
+                     <font>
+                        <Font name="Segoe UI Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="registerButton1" alignment="CENTER" layoutX="56.0" layoutY="338.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="304.0" style="-fx-background-color: #1aa3ff;" text="Login as a Employee" textFill="WHITE" textOverrun="CLIP">
+                     <font>
+                        <Font name="Segoe UI Black" size="10.0" />
+                     </font>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</VBox>

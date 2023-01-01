@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.RegisterController">
+   <children>
+      <AnchorPane prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #1aa3ff;">
+         <children>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="-1.0" prefHeight="82.0" prefWidth="162.0" text="MoThor" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="31.0" />
+               </font>
+            </Label>
+            <Line endX="-115.0" endY="-33.0" layoutX="300.0" layoutY="41.0" startX="-115.0" startY="31.0" stroke="WHITE" strokeLineCap="ROUND" strokeWidth="3.0" />
+            <Label alignment="CENTER" layoutX="239.0" layoutY="-1.0" prefHeight="82.0" prefWidth="322.0" text="User Registration" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="21.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <AnchorPane prefHeight="318.0" prefWidth="600.0" style="-fx-background-color: #e6f5ff;">
+         <children>
+            <TextField fx:id="registerFirstNameField" alignment="CENTER" layoutX="26.0" layoutY="30.0" prefHeight="25.0" prefWidth="262.0" promptText="First Name" />
+            <TextField fx:id="registerLastNameField" alignment="CENTER" layoutX="312.0" layoutY="30.0" prefHeight="25.0" prefWidth="262.0" promptText="Last Name" />
+            <TextField fx:id="registerEmailField" alignment="CENTER" layoutX="26.0" layoutY="76.0" prefHeight="25.0" prefWidth="262.0" promptText="Email address" />
+            <TextField fx:id="registerPhoneField" alignment="CENTER" layoutX="312.0" layoutY="76.0" prefHeight="25.0" prefWidth="262.0" promptText="Phone number" />
+            <TextField fx:id="registerUsernameField" alignment="CENTER" layoutX="26.0" layoutY="123.0" prefHeight="25.0" prefWidth="548.0" promptText="Username" />
+            <PasswordField fx:id="registerPasswordField" alignment="CENTER" layoutX="26.0" layoutY="159.0" prefHeight="25.0" prefWidth="548.0" promptText="Password" />
+            <PasswordField fx:id="registerRepeatPasswordField" alignment="CENTER" layoutX="26.0" layoutY="198.0" prefHeight="25.0" prefWidth="548.0" promptText="Repeat password" />
+            <Button fx:id="createAccountButton" layoutX="26.0" layoutY="240.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="548.0" style="-fx-background-color: #1aa3ff;" text="Create account" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font></Button>
+            <Button fx:id="exitButton" layoutX="26.0" layoutY="279.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="25.0" prefWidth="548.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
+   </children>
+</VBox>

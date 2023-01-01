@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.ListOfCarsController">
+   <children>
+      <TableView fx:id="carListModelTableView" layoutX="10.0" layoutY="127.0" prefHeight="303.0" prefWidth="731.0">
+        <columns>
+          <TableColumn fx:id="carModelTableColumn" prefWidth="121.0" text="Car Model" />
+          <TableColumn fx:id="manufacturerTableColumn" prefWidth="134.0" text="Manufacturer" />
+            <TableColumn fx:id="carTypeTableColumn" prefWidth="141.0" text="Car Type" />
+            <TableColumn fx:id="colorTableColumn" prefWidth="107.0" text="Color" />
+            <TableColumn fx:id="enginePowerTableColumn" prefWidth="107.0" text="Engine Power" />
+            <TableColumn fx:id="costPerDayTableColumn" prefWidth="109.0" text="Cost per day" />
+        </columns>
+      </TableView>
+       <Button fx:id="exitButton" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+         <font>
+            <Font name="Segoe UI Black" size="12.0" />
+         </font></Button>
+      <Label alignment="CENTER" layoutX="21.0" layoutY="18.0" prefHeight="17.0" prefWidth="47.0" text="Search">
+         <font>
+            <Font name="Segoe UI Black" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="keywordsTextField" layoutX="68.0" layoutY="14.0" prefHeight="25.0" prefWidth="326.0" promptText="Keywords..." />
+   </children>
+</Pane>
