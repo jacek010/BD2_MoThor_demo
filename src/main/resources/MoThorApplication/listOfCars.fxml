@@ -8,12 +8,13 @@
    <children>
       <TableView fx:id="carListModelTableView" layoutX="10.0" layoutY="127.0" prefHeight="303.0" prefWidth="731.0">
         <columns>
-          <TableColumn fx:id="carModelTableColumn" prefWidth="121.0" text="Car Model" />
-          <TableColumn fx:id="manufacturerTableColumn" prefWidth="134.0" text="Manufacturer" />
-            <TableColumn fx:id="carTypeTableColumn" prefWidth="141.0" text="Car Type" />
-            <TableColumn fx:id="colorTableColumn" prefWidth="107.0" text="Color" />
-            <TableColumn fx:id="enginePowerTableColumn" prefWidth="107.0" text="Engine Power" />
-            <TableColumn fx:id="costPerDayTableColumn" prefWidth="109.0" text="Cost per day" />
+            <TableColumn fx:id="carIDTableColumn" prefWidth="49.0" text="Car ID" />
+          <TableColumn fx:id="carModelTableColumn" prefWidth="154.0" text="Car Model" />
+          <TableColumn fx:id="manufacturerTableColumn" prefWidth="132.0" text="Manufacturer" />
+            <TableColumn fx:id="carTypeTableColumn" prefWidth="78.0" text="Car Type" />
+            <TableColumn fx:id="colorTableColumn" prefWidth="82.0" text="Color" />
+            <TableColumn fx:id="enginePowerTableColumn" prefWidth="123.0" text="Engine Power" />
+            <TableColumn fx:id="costPerDayTableColumn" prefWidth="112.0" text="Cost per day" />
         </columns>
       </TableView>
        <Button fx:id="exitButton" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
@@ -34,6 +35,11 @@
       </Label>
       <DatePicker fx:id="endDatePicker" layoutX="84.0" layoutY="86.0" promptText="Select end date" />
       <Label alignment="CENTER" layoutX="10.0" layoutY="90.0" prefHeight="17.0" prefWidth="74.0" text="End Date">
+         <font>
+            <Font name="Segoe UI Black" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="loggedAsLabel" layoutX="327.0" layoutY="18.0" prefHeight="17.0" prefWidth="322.0" text="You are logged as: ">
          <font>
             <Font name="Segoe UI Black" size="12.0" />
          </font>

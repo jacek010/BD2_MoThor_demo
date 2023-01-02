@@ -29,6 +29,8 @@ public class ListOfCarsController implements Initializable {
     @FXML
     private TableView<ClientCarListModel> carListModelTableView;
     @FXML
+    private TableColumn<ClientCarListModel,Integer>carIDTableColumn;
+    @FXML
     private TableColumn<ClientCarListModel, String> carModelTableColumn;
     @FXML
     private TableColumn<ClientCarListModel, String> manufacturerTableColumn;
@@ -46,6 +48,8 @@ public class ListOfCarsController implements Initializable {
     private DatePicker startDatePicker;
     @FXML
     private DatePicker endDatePicker;
+    @FXML
+    private Label loggedAsLabel;
 
     ObservableList<ClientCarListModel> clientCarListModelObservableList = FXCollections.observableArrayList();
 
@@ -53,6 +57,11 @@ public class ListOfCarsController implements Initializable {
     public void initialize(URL url, ResourceBundle resource){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
+
+        setClientAccessLevel(connectDB);
+
+        loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
+
         String clientViewQuery="SELECT * FROM ClientView";
 
         showCarList(connectDB, clientViewQuery);
@@ -80,12 +89,13 @@ public class ListOfCarsController implements Initializable {
     {
         carListModelTableView.setItems(null);
         clientCarListModelObservableList.clear();
-        System.out.println(query);
+        //System.out.println(query);
         try{
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(query);
 
             while(queryResult.next()){
+                Integer queryCarID= queryResult.getInt("CarID");
                 String queryCarModelName = queryResult.getString("CarModelName");
                 String queryManufacturerName = queryResult.getString("ManufacturerName");
                 String queryCarTypeName = queryResult.getString("CarTypeName");
@@ -94,9 +104,10 @@ public class ListOfCarsController implements Initializable {
                 Float queryDailyLendingPrice = queryResult.getFloat("DailyLendingPrice");
 
 
-                clientCarListModelObservableList.add(new ClientCarListModel(queryCarModelName, queryManufacturerName, queryCarTypeName, queryColor, queryEnginePower, queryDailyLendingPrice));
+                clientCarListModelObservableList.add(new ClientCarListModel(queryCarID, queryCarModelName, queryManufacturerName, queryCarTypeName, queryColor, queryEnginePower, queryDailyLendingPrice));
             }
 
+            carIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("CarID"));
             carModelTableColumn.setCellValueFactory(new PropertyValueFactory<>("CarModelName"));
             manufacturerTableColumn.setCellValueFactory(new PropertyValueFactory<>("ManufacturerName"));
             carTypeTableColumn.setCellValueFactory(new PropertyValueFactory<>("CarTypeName"));
@@ -114,7 +125,8 @@ public class ListOfCarsController implements Initializable {
                 if(newValue.isEmpty() || newValue.isBlank()) return true;
 
                 String searchKeyword = newValue.toLowerCase();
-                if(clientCarListModel.getCarModelName().toLowerCase().contains(searchKeyword)) return true;
+                if (clientCarListModel.getCarID().toString().contains(searchKeyword)) return true;
+                else if(clientCarListModel.getCarModelName().toLowerCase().contains(searchKeyword)) return true;
                 else if (clientCarListModel.getManufacturerName().toLowerCase().contains(searchKeyword)) return true;
                 else if (clientCarListModel.getCarTypeName().toLowerCase().contains(searchKeyword)) return true;
                 else if (clientCarListModel.getColor().toLowerCase().contains(searchKeyword)) return true;
@@ -137,6 +149,23 @@ public class ListOfCarsController implements Initializable {
         }
 
 
+    }
+
+    public void setClientAccessLevel(Connection connectDB)
+    {
+        String query = "select Verified from Clients where ClientID="+DatabaseConnection.loggedID;
+        try {
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(query);
+
+            while(queryResult.next())
+            {
+                if(queryResult.getInt(1)==1) DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.VERIFIED;
+                else DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.UNVERIFIED;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
     public void exitButtonOnAction(ActionEvent event){
         Stage stage = (Stage) exitButton.getScene().getWindow();

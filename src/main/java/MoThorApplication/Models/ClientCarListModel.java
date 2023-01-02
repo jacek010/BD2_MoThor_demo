@@ -2,6 +2,7 @@ package MoThorApplication.Models;
 
 public class ClientCarListModel {
 
+    Integer carID;
     String carModelName;
     String manufacturerName;
     String carTypeName;
@@ -9,13 +10,22 @@ public class ClientCarListModel {
     Integer enginePower;
     Float dailyLendingPrice;
 
-    public ClientCarListModel(String carModelName, String manufacturerName, String carTypeName, String color, Integer enginePower, Float dailyLendingPrice) {
+    public ClientCarListModel(Integer carID, String carModelName, String manufacturerName, String carTypeName, String color, Integer enginePower, Float dailyLendingPrice) {
+        this.carID=carID;
         this.carModelName = carModelName;
         this.manufacturerName = manufacturerName;
         this.carTypeName = carTypeName;
         this.color = color;
         this.enginePower = enginePower;
         this.dailyLendingPrice = dailyLendingPrice;
+    }
+
+    public Integer getCarID() {
+        return carID;
+    }
+
+    public void setCarID(Integer carID) {
+        this.carID = carID;
     }
 
     public String getCarModelName() {

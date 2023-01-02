@@ -5,7 +5,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
+    public enum AccessLevelEnum{UNVERIFIED, VERIFIED, EMPLOYEE, MANAGER}
     public Connection databaseLink;
+    public static int loggedID=0;
+    public static String firstName="";
+    public static String lastName="";
+    public static DatabaseConnection.AccessLevelEnum accessLevel=AccessLevelEnum.UNVERIFIED;
+
 
     public Connection getConnection(){
         String databaseName = "Mothor";

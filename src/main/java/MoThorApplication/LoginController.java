@@ -15,6 +15,7 @@ import javafx.stage.StageStyle;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
 
@@ -52,7 +53,7 @@ public class LoginController {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String verifyLogin="SELECT count(1) FROM Human where Login ='"+loginUsernameField.getText()+"' and Password='"+loginPasswordField.getText()+"'";
+        String verifyLogin="SELECT count(1), HumanID, FirstName, LastName FROM Human where Login ='"+loginUsernameField.getText()+"' and Password='"+loginPasswordField.getText()+"'";
 
         try{
             Statement statement = connectDB.createStatement();
@@ -63,6 +64,7 @@ public class LoginController {
                  if (queryResult.getInt(1)==0)
                  {
                      loginMessageLabel.setText("Welcome "+loginUsernameField.getText()+"!");
+                     saveLoggedUserParameters(queryResult);
                      openClientView();
                  }
                  else
@@ -78,6 +80,7 @@ public class LoginController {
 
     public void openClientView(){
         try{
+
             closeCurrentStage();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("listOfCars.fxml")));
             Stage registerStage = new Stage();
@@ -106,6 +109,12 @@ public class LoginController {
             e.printStackTrace();
             e.getCause();
         }
+    }
+
+    public void saveLoggedUserParameters(ResultSet queryResult) throws SQLException {
+        DatabaseConnection.loggedID = queryResult.getInt(2);
+        DatabaseConnection.firstName=queryResult.getString(3);
+        DatabaseConnection.lastName= queryResult.getString(4);
     }
 
     public void closeCurrentStage()

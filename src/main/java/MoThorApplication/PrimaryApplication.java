@@ -9,6 +9,8 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class PrimaryApplication extends Application {
+
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(PrimaryApplication.class.getResource("loginWindow.fxml"));
