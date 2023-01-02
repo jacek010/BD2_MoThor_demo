@@ -23,14 +23,16 @@
          </children></AnchorPane>
       <AnchorPane prefHeight="318.0" prefWidth="600.0" style="-fx-background-color: #e6f5ff;">
          <children>
-            <TextField fx:id="registerFirstNameField" alignment="CENTER" layoutX="26.0" layoutY="30.0" prefHeight="25.0" prefWidth="262.0" promptText="First Name" />
-            <TextField fx:id="registerLastNameField" alignment="CENTER" layoutX="312.0" layoutY="30.0" prefHeight="25.0" prefWidth="262.0" promptText="Last Name" />
-            <TextField fx:id="registerEmailField" alignment="CENTER" layoutX="26.0" layoutY="76.0" prefHeight="25.0" prefWidth="262.0" promptText="Email address" />
-            <TextField fx:id="registerPhoneField" alignment="CENTER" layoutX="312.0" layoutY="76.0" prefHeight="25.0" prefWidth="262.0" promptText="Phone number" />
-            <TextField fx:id="registerUsernameField" alignment="CENTER" layoutX="26.0" layoutY="123.0" prefHeight="25.0" prefWidth="548.0" promptText="Username" />
-            <PasswordField fx:id="registerPasswordField" alignment="CENTER" layoutX="26.0" layoutY="159.0" prefHeight="25.0" prefWidth="548.0" promptText="Password" />
-            <PasswordField fx:id="registerRepeatPasswordField" alignment="CENTER" layoutX="26.0" layoutY="198.0" prefHeight="25.0" prefWidth="548.0" promptText="Repeat password" />
-            <Button fx:id="createAccountButton" layoutX="26.0" layoutY="240.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="548.0" style="-fx-background-color: #1aa3ff;" text="Create account" textFill="WHITE">
+            <TextField fx:id="firstNameTextField" alignment="CENTER" layoutX="26.0" layoutY="18.0" prefHeight="25.0" prefWidth="262.0" promptText="First Name" style="-fx-border-color: red;" />
+            <TextField fx:id="lastNameTextField" alignment="CENTER" layoutX="312.0" layoutY="18.0" prefHeight="25.0" prefWidth="262.0" promptText="Last Name" style="-fx-border-color: red;" />
+            <TextField fx:id="emailTextField" alignment="CENTER" layoutX="26.0" layoutY="51.0" prefHeight="25.0" prefWidth="262.0" promptText="Email address" />
+            <TextField fx:id="driverLicenseTextField" alignment="CENTER" layoutX="26.0" layoutY="86.0" prefHeight="25.0" prefWidth="262.0" promptText="Driver license" style="-fx-border-color: red;" />
+            <TextField fx:id="phoneTextField" alignment="CENTER" layoutX="312.0" layoutY="51.0" prefHeight="25.0" prefWidth="262.0" promptText="Phone number" style="-fx-border-color: red;" />
+            <TextField fx:id="secondPhoneTextField" alignment="CENTER" layoutX="312.0" layoutY="86.0" prefHeight="25.0" prefWidth="262.0" promptText="Second phone number" />
+            <TextField fx:id="usernameTextField" alignment="CENTER" layoutX="26.0" layoutY="123.0" prefHeight="25.0" prefWidth="548.0" promptText="Username" style="-fx-border-color: red;" />
+            <PasswordField fx:id="passwordField" alignment="CENTER" layoutX="26.0" layoutY="159.0" prefHeight="25.0" prefWidth="548.0" promptText="Password" style="-fx-border-color: red;" />
+            <PasswordField fx:id="repeatPasswordField" alignment="CENTER" layoutX="26.0" layoutY="198.0" prefHeight="25.0" prefWidth="548.0" promptText="Repeat password" style="-fx-border-color: red;" />
+            <Button fx:id="createAccountButton" layoutX="26.0" layoutY="240.0" mnemonicParsing="false" onAction="#createAccountButtonOnAction" prefHeight="25.0" prefWidth="548.0" style="-fx-background-color: #1aa3ff;" text="Create account" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font></Button>
@@ -39,6 +41,12 @@
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </Button>
+            <Label fx:id="registerStatusLabel" alignment="CENTER" layoutX="27.0" layoutY="1.0" prefHeight="17.0" prefWidth="548.0" textFill="#1aa3ff">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font></Label>
+
+
          </children></AnchorPane>
    </children>
 </VBox>

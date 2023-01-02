@@ -1,4 +1,4 @@
-module com.example.demobd {
+module MoThorApplication {
     requires javafx.controls;
     requires javafx.fxml;
 
