@@ -8,10 +8,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -20,6 +17,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +42,10 @@ public class ListOfCarsController implements Initializable {
     private TableColumn<ClientCarListModel, Float> costPerDayTableColumn;
     @FXML
     private TextField keywordsTextField;
+    @FXML
+    private DatePicker startDatePicker;
+    @FXML
+    private DatePicker endDatePicker;
 
     ObservableList<ClientCarListModel> clientCarListModelObservableList = FXCollections.observableArrayList();
 
@@ -51,12 +53,37 @@ public class ListOfCarsController implements Initializable {
     public void initialize(URL url, ResourceBundle resource){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
-
         String clientViewQuery="SELECT * FROM ClientView";
 
+        showCarList(connectDB, clientViewQuery);
+
+        startDatePicker.valueProperty().addListener((observable, oldValue, newValue)->{
+            if(endDatePicker.getValue()==null) endDatePicker.setValue(newValue.plusDays(5));
+            else if(endDatePicker.getValue().isBefore(newValue.plusDays(5))) endDatePicker.setValue(newValue.plusDays(5));
+            String startDate = startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
+            showCarList(connectDB, clientViewQuery2);
+        });
+        endDatePicker.valueProperty().addListener((observable, oldValue, newValue)->{
+            if(startDatePicker.getValue()==null)startDatePicker.setValue(newValue.minusDays(5));
+            else if(newValue.isBefore(startDatePicker.getValue().plusDays(5))) startDatePicker.setValue(newValue.minusDays(5));
+            String startDate = startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
+            showCarList(connectDB, clientViewQuery2);
+        });
+
+    }
+
+    public void showCarList(Connection connectDB,String query)
+    {
+        carListModelTableView.setItems(null);
+        clientCarListModelObservableList.clear();
+        System.out.println(query);
         try{
             Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(clientViewQuery);
+            ResultSet queryResult = statement.executeQuery(query);
 
             while(queryResult.next()){
                 String queryCarModelName = queryResult.getString("CarModelName");
