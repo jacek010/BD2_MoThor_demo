@@ -91,9 +91,7 @@ public class ListOfCarsController implements Initializable {
             String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
             showCarList(connectDB, clientViewQuery2);
 
-            //do momentu rozwiązania logowania
-            showOrderButtons=true;
-            //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
+            if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
         });
         endDatePicker.valueProperty().addListener((observable, oldValue, newValue)->{
             if(startDatePicker.getValue()==null)startDatePicker.setValue(newValue.minusDays(5));
@@ -103,9 +101,7 @@ public class ListOfCarsController implements Initializable {
             String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
             showCarList(connectDB, clientViewQuery2);
 
-            //do momentu rozwiązania logowania
-            showOrderButtons=true;
-            //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
+            if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
         });
 
     }
@@ -240,6 +236,7 @@ public class ListOfCarsController implements Initializable {
 
     public void setClientAccessLevel(Connection connectDB)
     {
+        DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.UNVERIFIED;
         String query = "select Verified from Clients where ClientID="+DatabaseConnection.loggedID;
         try {
             Statement statement = connectDB.createStatement();
@@ -248,7 +245,6 @@ public class ListOfCarsController implements Initializable {
             while(queryResult.next())
             {
                 if(queryResult.getInt(1)==1) DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.VERIFIED;
-                else DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.UNVERIFIED;
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -256,7 +252,6 @@ public class ListOfCarsController implements Initializable {
     }
 
     public void setChangeClientInformationButtonOnAction(ActionEvent event) throws SQLException {
-        DatabaseConnection.loggedID=10;
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         String firstName="", lastName="",emailAddress="", clientDrivingLicense="", phoneNumber="", backupPhoneNumber="";

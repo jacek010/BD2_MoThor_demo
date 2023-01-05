@@ -54,17 +54,19 @@ public class LoginController {
         Connection connectDB = connectNow.getConnection();
 
         String verifyLogin="SELECT count(1), HumanID, FirstName, LastName FROM Human where Login ='"+loginUsernameField.getText()+"' and Password='"+loginPasswordField.getText()+"'";
+        //String verifyLogin="SELECT count(1), HumanID, FirstName, LastName FROM Human where Login ='nunc' and Password='enim'";
 
         try{
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyLogin);
-
             while(queryResult.next())
             {
-                 if (queryResult.getInt(1)==0)
+
+                 if (queryResult.getInt(1)==1)
                  {
+
                      loginMessageLabel.setText("Welcome "+loginUsernameField.getText()+"!");
-                     DatabaseConnection.loggedID=10;
+
                      saveLoggedUserParameters(queryResult);
                      openClientView();
                  }
@@ -113,6 +115,7 @@ public class LoginController {
     }
 
     public void saveLoggedUserParameters(ResultSet queryResult) throws SQLException {
+        System.out.println();
         DatabaseConnection.loggedID = queryResult.getInt(2);
         DatabaseConnection.firstName=queryResult.getString(3);
         DatabaseConnection.lastName= queryResult.getString(4);

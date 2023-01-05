@@ -75,7 +75,6 @@ public class MakeAReservationController{
 
     public void acceptButtonOnAction(ActionEvent event){
 
-        DatabaseConnection.loggedID=10;
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         //wysłąnie kwerendy INSERT do bazy danych
