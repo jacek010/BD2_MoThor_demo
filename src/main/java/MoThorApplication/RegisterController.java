@@ -56,8 +56,8 @@ public class RegisterController {
     public boolean validateRegisterData(Connection connectDB)
     {
         if(firstNameTextField.getText().isBlank()||lastNameTextField.getText().isBlank()||driverLicenseTextField.getText().isBlank()||phoneTextField.getText().isBlank()||usernameTextField.getText().isBlank()||passwordField.getText().isBlank()||repeatPasswordField.getText().isBlank()) {
-            registerStatusLabel.setText("Please fill all red fields!");
-            return false;
+                registerStatusLabel.setText("Please fill all red fields!");
+                return false;
         } else if (!passwordField.getText().equals(repeatPasswordField.getText())) {
             registerStatusLabel.setText("Passwords must be the same!");
             return false;

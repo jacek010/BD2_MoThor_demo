@@ -64,6 +64,7 @@ public class LoginController {
                  if (queryResult.getInt(1)==0)
                  {
                      loginMessageLabel.setText("Welcome "+loginUsernameField.getText()+"!");
+                     DatabaseConnection.loggedID=10;
                      saveLoggedUserParameters(queryResult);
                      openClientView();
                  }

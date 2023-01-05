@@ -62,7 +62,7 @@ public class ListOfCarsController implements Initializable {
     @FXML
     private Label loggedAsLabel;
     @FXML
-    private Button makeAReservationButton;
+    private Button changeClientInformationButton;
 
     ClientCarListModel carRecord;
 
@@ -76,9 +76,6 @@ public class ListOfCarsController implements Initializable {
         Connection connectDB = connectNow.getConnection();
         showOrderButtons=false;
         setClientAccessLevel(connectDB);
-        makeAReservationButton.setDisable(!showOrderButtons); //to ma być normalnie true, ale do czasu rozwiązania problemów z logowaniem musi być false
-
-
 
         loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
 
@@ -95,10 +92,8 @@ public class ListOfCarsController implements Initializable {
             showCarList(connectDB, clientViewQuery2);
 
             //do momentu rozwiązania logowania
-            makeAReservationButton.setDisable(false);
             showOrderButtons=true;
             //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
-            //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)makeAReservationButton.setDisable(false);
         });
         endDatePicker.valueProperty().addListener((observable, oldValue, newValue)->{
             if(startDatePicker.getValue()==null)startDatePicker.setValue(newValue.minusDays(5));
@@ -109,10 +104,8 @@ public class ListOfCarsController implements Initializable {
             showCarList(connectDB, clientViewQuery2);
 
             //do momentu rozwiązania logowania
-            makeAReservationButton.setDisable(false);
             showOrderButtons=true;
             //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
-            //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)makeAReservationButton.setDisable(false);
         });
 
     }
@@ -200,7 +193,6 @@ public class ListOfCarsController implements Initializable {
                                 editButton.setOnMouseClicked((MouseEvent event) -> {
                                     carListModelTableView.getSelectionModel().select(this.getIndex());
                                     carRecord = carListModelTableView.getSelectionModel().getSelectedItem();
-                                    //System.out.println(carRecord.getCarID());
 
                                     FXMLLoader loader = new FXMLLoader();
                                     loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
@@ -263,23 +255,44 @@ public class ListOfCarsController implements Initializable {
         }
     }
 
-    public void setMakeAReservationButtonOnAction(ActionEvent event)
-    {
-        try {
-            carRecord = carListModelTableView.getSelectionModel().getSelectedItem();
-            System.out.println(carRecord.getCarID());
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("makeAReservationWindow.fxml")));
-            Stage registerStage = new Stage();
+    public void setChangeClientInformationButtonOnAction(ActionEvent event) throws SQLException {
+        DatabaseConnection.loggedID=10;
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        String firstName="", lastName="",emailAddress="", clientDrivingLicense="", phoneNumber="", backupPhoneNumber="";
+        int phoneID=0;
 
-            registerStage.initStyle(StageStyle.UNDECORATED);
-            registerStage.setScene(new Scene(root, 600, 400));
-            registerStage.show();
+        String getUserDataQuery="SELECT h.FirstName, h.LastName, h.EmailAddress, c.ClientDrivingLicense,h.PhoneID, p.PhoneNumber, p.BackupPhoneNumber " +
+                "FROM Human h, Clients c, Phones p " +
+                "WHERE h.HumanID="+DatabaseConnection.loggedID+" AND h.HumanID=c.ClientID AND h.PhoneID=p.PhoneID";
 
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            e.getCause();
+        Statement statement = connectDB.createStatement();
+        ResultSet queryResult = statement.executeQuery(getUserDataQuery);
+
+        while(queryResult.next()){
+            firstName=queryResult.getString("FirstName");
+            lastName=queryResult.getString("LastName");
+            emailAddress=queryResult.getString("EmailAddress");
+            clientDrivingLicense=queryResult.getString("ClientDrivingLicense");
+            phoneID=queryResult.getInt("PhoneID");
+            phoneNumber=queryResult.getString("PhoneNumber");
+            backupPhoneNumber=queryResult.getString("BackupPhoneNumber");
         }
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("changeClientInformationWindow.fxml"));
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        ChangeClientInformationController changeClientInformationController = loader.getController();
+        changeClientInformationController.setFields(firstName, lastName,emailAddress,clientDrivingLicense,phoneID, phoneNumber,backupPhoneNumber);
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(parent));
+        stage.initStyle(StageStyle.UTILITY);
+        stage.show();
     }
     public void exitButtonOnAction(ActionEvent event){
         Stage stage = (Stage) exitButton.getScene().getWindow();

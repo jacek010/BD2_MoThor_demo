@@ -51,8 +51,8 @@
          </font>
       </Label>
 
-      <Button fx:id="acceptButton" layoutX="119.0" layoutY="354.0" mnemonicParsing="false" onAction="#acceptButtonOnAction" text="acceptButton" />
-      <Button fx:id="cancelButton" layoutX="409.0" layoutY="354.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" text="cancelButton" />
+      <Button fx:id="acceptButton" layoutX="326.0" layoutY="335.0" mnemonicParsing="false" onAction="#acceptButtonOnAction" prefHeight="48.0" prefWidth="248.0" text="acceptButton" />
+      <Button fx:id="cancelButton" layoutX="20.0" layoutY="335.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="48.0" prefWidth="248.0" text="cancelButton" />
 
       <TextField fx:id="fullCostTextField" alignment="CENTER" editable="false" layoutX="226.0" layoutY="296.0" promptText="fullCost" />
       <Label alignment="CENTER" layoutX="268.0" layoutY="279.0" prefHeight="17.0" prefWidth="64.0" text="fullCost">
