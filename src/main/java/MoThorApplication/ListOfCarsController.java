@@ -7,23 +7,32 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ListOfCarsController implements Initializable {
-
     @FXML
     private Button exitButton;
     @FXML
@@ -43,6 +52,8 @@ public class ListOfCarsController implements Initializable {
     @FXML
     private TableColumn<ClientCarListModel, Float> costPerDayTableColumn;
     @FXML
+    private TableColumn<ClientCarListModel, String> reservationTableColumn;
+    @FXML
     private TextField keywordsTextField;
     @FXML
     private DatePicker startDatePicker;
@@ -50,15 +61,24 @@ public class ListOfCarsController implements Initializable {
     private DatePicker endDatePicker;
     @FXML
     private Label loggedAsLabel;
+    @FXML
+    private Button makeAReservationButton;
+
+    ClientCarListModel carRecord;
 
     ObservableList<ClientCarListModel> clientCarListModelObservableList = FXCollections.observableArrayList();
+
+    boolean showOrderButtons = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resource){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
-
+        showOrderButtons=false;
         setClientAccessLevel(connectDB);
+        makeAReservationButton.setDisable(!showOrderButtons); //to ma być normalnie true, ale do czasu rozwiązania problemów z logowaniem musi być false
+
+
 
         loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
 
@@ -73,6 +93,12 @@ public class ListOfCarsController implements Initializable {
             String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
             showCarList(connectDB, clientViewQuery2);
+
+            //do momentu rozwiązania logowania
+            makeAReservationButton.setDisable(false);
+            showOrderButtons=true;
+            //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
+            //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)makeAReservationButton.setDisable(false);
         });
         endDatePicker.valueProperty().addListener((observable, oldValue, newValue)->{
             if(startDatePicker.getValue()==null)startDatePicker.setValue(newValue.minusDays(5));
@@ -81,6 +107,12 @@ public class ListOfCarsController implements Initializable {
             String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
             showCarList(connectDB, clientViewQuery2);
+
+            //do momentu rozwiązania logowania
+            makeAReservationButton.setDisable(false);
+            showOrderButtons=true;
+            //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
+            //if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)makeAReservationButton.setDisable(false);
         });
 
     }
@@ -90,12 +122,12 @@ public class ListOfCarsController implements Initializable {
         carListModelTableView.setItems(null);
         clientCarListModelObservableList.clear();
         //System.out.println(query);
-        try{
+        try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(query);
 
-            while(queryResult.next()){
-                Integer queryCarID= queryResult.getInt("CarID");
+            while (queryResult.next()) {
+                Integer queryCarID = queryResult.getInt("CarID");
                 String queryCarModelName = queryResult.getString("CarModelName");
                 String queryManufacturerName = queryResult.getString("ManufacturerName");
                 String queryCarTypeName = queryResult.getString("CarTypeName");
@@ -107,26 +139,29 @@ public class ListOfCarsController implements Initializable {
                 clientCarListModelObservableList.add(new ClientCarListModel(queryCarID, queryCarModelName, queryManufacturerName, queryCarTypeName, queryColor, queryEnginePower, queryDailyLendingPrice));
             }
 
-            carIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("CarID"));
-            carModelTableColumn.setCellValueFactory(new PropertyValueFactory<>("CarModelName"));
-            manufacturerTableColumn.setCellValueFactory(new PropertyValueFactory<>("ManufacturerName"));
-            carTypeTableColumn.setCellValueFactory(new PropertyValueFactory<>("CarTypeName"));
-            colorTableColumn.setCellValueFactory(new PropertyValueFactory<>("Color"));
-            enginePowerTableColumn.setCellValueFactory(new PropertyValueFactory<>("EnginePower"));
-            costPerDayTableColumn.setCellValueFactory(new PropertyValueFactory<>("DailyLendingPrice"));
+            carIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("carID"));
+            carModelTableColumn.setCellValueFactory(new PropertyValueFactory<>("carModelName"));
+            manufacturerTableColumn.setCellValueFactory(new PropertyValueFactory<>("manufacturerName"));
+            carTypeTableColumn.setCellValueFactory(new PropertyValueFactory<>("carTypeName"));
+            colorTableColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
+            enginePowerTableColumn.setCellValueFactory(new PropertyValueFactory<>("enginePower"));
+            costPerDayTableColumn.setCellValueFactory(new PropertyValueFactory<>("dailyLendingPrice"));
+
+            //add cell of button edit
+
 
             carListModelTableView.setItems(clientCarListModelObservableList);
 
-            FilteredList<ClientCarListModel> filteredData = new FilteredList<>(clientCarListModelObservableList, b->true);
+            FilteredList<ClientCarListModel> filteredData = new FilteredList<>(clientCarListModelObservableList, b -> true);
 
-            keywordsTextField.textProperty().addListener((observable, oldValue, newValue)-> filteredData.setPredicate(clientCarListModel->{
+            keywordsTextField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(clientCarListModel -> {
 
                 //gdy nie ma żadnego słowa kluczowego wyświetla wszystkie dostępne rekordy
-                if(newValue.isEmpty() || newValue.isBlank()) return true;
+                if (newValue.isEmpty() || newValue.isBlank()) return true;
 
                 String searchKeyword = newValue.toLowerCase();
                 if (clientCarListModel.getCarID().toString().contains(searchKeyword)) return true;
-                else if(clientCarListModel.getCarModelName().toLowerCase().contains(searchKeyword)) return true;
+                else if (clientCarListModel.getCarModelName().toLowerCase().contains(searchKeyword)) return true;
                 else if (clientCarListModel.getManufacturerName().toLowerCase().contains(searchKeyword)) return true;
                 else if (clientCarListModel.getCarTypeName().toLowerCase().contains(searchKeyword)) return true;
                 else if (clientCarListModel.getColor().toLowerCase().contains(searchKeyword)) return true;
@@ -143,10 +178,70 @@ public class ListOfCarsController implements Initializable {
             carListModelTableView.setItems(sortedData);
 
 
-        } catch(SQLException e){
-            Logger.getLogger(ListOfCarsController.class.getName()).log(Level.SEVERE,null,e);
-            e.printStackTrace();
-        }
+                Callback<TableColumn<ClientCarListModel, String>, TableCell<ClientCarListModel, String>> cellFactory = (TableColumn<ClientCarListModel, String> param) -> {
+                    // make cell containing buttons
+
+                    return new TableCell<ClientCarListModel, String>() {
+                        @Override
+                        public void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            //that cell created only on non-empty rows
+                            if (empty) {
+                                setGraphic(null);
+
+                            } else {
+
+                                //FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.CAR);
+                                Button editButton = new Button("Order");
+                                editButton.setStyle("-fx-background-color: #1aa3ff;" +
+                                        "");
+                                editButton.setDisable(!showOrderButtons);
+
+                                editButton.setOnMouseClicked((MouseEvent event) -> {
+                                    carListModelTableView.getSelectionModel().select(this.getIndex());
+                                    carRecord = carListModelTableView.getSelectionModel().getSelectedItem();
+                                    //System.out.println(carRecord.getCarID());
+
+                                    FXMLLoader loader = new FXMLLoader();
+                                    loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
+                                    try {
+                                        loader.load();
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+
+                                    MakeAReservationController makeAReservationController = loader.getController();
+                                    makeAReservationController.setFields(carRecord.getCarID(), carRecord.getCarModelName(), carRecord.getManufacturerName(), carRecord.getCarTypeName(),
+                                            carRecord.getColor(), carRecord.getEnginePower(),carRecord.getDailyLendingPrice(),startDatePicker.getValue(),endDatePicker.getValue());
+                                    Parent parent = loader.getRoot();
+                                    Stage stage = new Stage();
+                                    stage.setScene(new Scene(parent));
+                                    stage.initStyle(StageStyle.UTILITY);
+                                    stage.show();
+
+
+                                });
+
+                                HBox manageBtn = new HBox(editButton);
+                                manageBtn.setStyle("-fx-alignment:center");
+                                HBox.setMargin(editButton, new Insets(2, 3, 0, 2));
+
+                                setGraphic(manageBtn);
+                            }
+                            setText(null);
+
+                        }
+
+                    };
+                };
+                reservationTableColumn.setCellFactory(cellFactory);
+                carListModelTableView.setItems(sortedData);
+
+
+            } catch(SQLException e){
+                Logger.getLogger(ListOfCarsController.class.getName()).log(Level.SEVERE, null, e);
+                e.printStackTrace();
+            }
 
 
     }
@@ -165,6 +260,25 @@ public class ListOfCarsController implements Initializable {
             }
         } catch (SQLException e){
             e.printStackTrace();
+        }
+    }
+
+    public void setMakeAReservationButtonOnAction(ActionEvent event)
+    {
+        try {
+            carRecord = carListModelTableView.getSelectionModel().getSelectedItem();
+            System.out.println(carRecord.getCarID());
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("makeAReservationWindow.fxml")));
+            Stage registerStage = new Stage();
+
+            registerStage.initStyle(StageStyle.UNDECORATED);
+            registerStage.setScene(new Scene(root, 600, 400));
+            registerStage.show();
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            e.getCause();
         }
     }
     public void exitButtonOnAction(ActionEvent event){

@@ -1,5 +1,7 @@
 package MoThorApplication.Models;
 
+import javafx.scene.control.Button;
+
 public class ClientCarListModel {
 
     Integer carID;
@@ -75,4 +77,6 @@ public class ClientCarListModel {
     public void setDailyLendingPrice(Float dailyLendingPrice) {
         this.dailyLendingPrice = dailyLendingPrice;
     }
+
+
 }
