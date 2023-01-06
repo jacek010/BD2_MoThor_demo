@@ -70,7 +70,7 @@ public class ChangeClientInformationController {
         if (firstNameTextField.getText().isBlank() || lastNameTextField.getText().isBlank() || driverLicenseTextField.getText().isBlank() || phoneTextField.getText().isBlank()) {
             submitStatusLabel.setText("Please fill all red fields!");
         } else {
-            if(!checkChanges()){
+            if (!checkChanges()) {
                 Stage stage = (Stage) exitButton.getScene().getWindow();
                 stage.close();
                 return;
@@ -80,16 +80,16 @@ public class ChangeClientInformationController {
             Statement statement = connectDB.createStatement();
 
             if (!oldPhoneNumber.equals(phoneTextField.getText())) {
-                String newPhoneNumber=phoneTextField.getText();
+                String newPhoneNumber = phoneTextField.getText();
 
                 //sprawdzamy czy nowy numer telefonu jest już w naszej tabeli PHONES - gdy tak, to po prostu przypisujemy osobie nowe PhoneID
-                ResultSet result1 = statement.executeQuery("SELECT PhoneID FROM Phones WHERE PhoneNumber='"+newPhoneNumber+"'");
-                int phoneIDCount=0;
-                while(result1.next()) phoneIDCount=result1.getInt("PhoneID");
-                if(phoneIDCount>0){
-                    System.out.println("NewPhoneIndex: "+statement.executeQuery("SELECT PhoneID FROM Phones WHERE PhoneNumber='" + newPhoneNumber+"'").getInt(1));
-                    statement.executeQuery("UPDATE Human SET PhoneID="+statement.executeQuery("SELECT PhoneID FROM Phones WHERE PhoneNumber='" + newPhoneNumber+"'").getInt(1)+" WHERE HumanID="+DatabaseConnection.loggedID);
-                }else {
+                ResultSet result1 = statement.executeQuery("SELECT PhoneID FROM Phones WHERE PhoneNumber='" + newPhoneNumber + "'");
+                int phoneIDCount = 0;
+                while (result1.next()) phoneIDCount = result1.getInt("PhoneID");
+                if (phoneIDCount > 0) {
+                    System.out.println("NewPhoneIndex: " + statement.executeQuery("SELECT PhoneID FROM Phones WHERE PhoneNumber='" + newPhoneNumber + "'").getInt(1));
+                    statement.executeQuery("UPDATE Human SET PhoneID=" + statement.executeQuery("SELECT PhoneID FROM Phones WHERE PhoneNumber='" + newPhoneNumber + "'").getInt(1) + " WHERE HumanID=" + DatabaseConnection.loggedID);
+                } else {
                     //sprawdzamy czy tylko ta osoba ma ten numer telefonu jako główny - gdy tak, to po prostu zmieniamy numer w tabeli PHONES pod odpowiednim PhoneID
                     ResultSet result2 = statement.executeQuery("SELECT count(1) FROM Human WHERE PhoneID=" + phoneID);
                     int phoneIDCount2 = 0;
@@ -105,16 +105,17 @@ public class ChangeClientInformationController {
                 }
             }
 
-                    String updateHumanQuery = "UPDATE Human SET FirstName='" + firstNameTextField.getText()
-                            + "', LastName='" + lastNameTextField.getText()
-                            + "', EmailAddress='"+emailTextField.getText()+"' WHERE HumanID="+DatabaseConnection.loggedID;
-                    String updateClientQuery="UPDATE Clients SET ClientDrivingLicense='"+driverLicenseTextField.getText()+"', Verified=0 WHERE ClientID="+DatabaseConnection.loggedID;
+            String updateHumanQuery = "UPDATE Human SET FirstName='" + firstNameTextField.getText()
+                    + "', LastName='" + lastNameTextField.getText()
+                    + "', EmailAddress='" + emailTextField.getText() + "' WHERE HumanID=" + DatabaseConnection.loggedID;
+            String updateClientQuery = "UPDATE Clients SET ClientDrivingLicense='" + driverLicenseTextField.getText() + "', Verified=0 WHERE ClientID=" + DatabaseConnection.loggedID;
 
-                    statement.executeQuery(updateHumanQuery);
-                    statement.executeQuery(updateClientQuery);
+            statement.executeQuery(updateHumanQuery);
+            statement.executeQuery(updateClientQuery);
+
+            Stage stage = (Stage) exitButton.getScene().getWindow();
+            stage.close();
         }
-        Stage stage = (Stage) exitButton.getScene().getWindow();
-        stage.close();
     }
 
     public void exitButtonOnAction(ActionEvent event){

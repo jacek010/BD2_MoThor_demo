@@ -21,6 +21,8 @@ import java.util.Objects;
 
 public class LoginController {
     @FXML
+    private Button registerButton1;
+    @FXML
     private Button exitButton;
 
     @FXML
@@ -35,7 +37,7 @@ public class LoginController {
 
         if(!loginUsernameField.getText().isBlank() && !loginPasswordField.getText().isBlank()){
             loginMessageLabel.setText("Logging in... ");
-            validateLogin();
+            validateLogin("CLIENT");
         } else {
             loginMessageLabel.setText("Please enter username and password");
         }
@@ -49,11 +51,16 @@ public class LoginController {
         createAccountForm();
     }
 
-    public void validateLogin(){
+    public void validateLogin(String userType){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
-
-        String verifyLogin="SELECT count(1), HumanID, FirstName, LastName FROM Human where Login ='"+loginUsernameField.getText()+"' and Password='"+loginPasswordField.getText()+"'";
+        String verifyLogin;
+        if(userType.equals("CLIENT")) {
+            verifyLogin = "SELECT count(1), HumanID, FirstName, LastName FROM Human WHERE (Login ='" + loginUsernameField.getText() + "' and Password='" + loginPasswordField.getText() + "')AND(HumanID in (SELECT ClientID FROM Clients))";
+        }
+        else {
+            verifyLogin = "SELECT count(1), HumanID, FirstName, LastName FROM Human WHERE (Login ='" + loginUsernameField.getText() + "' and Password='" + loginPasswordField.getText() + "')AND(HumanID in (SELECT EmployeeID FROM Employees))";
+        }
         //String verifyLogin="SELECT count(1), HumanID, FirstName, LastName FROM Human where Login ='nunc' and Password='enim'";
 
         try{
