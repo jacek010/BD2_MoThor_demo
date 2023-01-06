@@ -20,7 +20,7 @@ public class DatabaseConnection {
         String password = "H4$lo12345";
         try {
             databaseLink = DriverManager.getConnection(url,username,password);
-        } catch(Exception e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
         return databaseLink;
