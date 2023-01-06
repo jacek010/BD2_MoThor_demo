@@ -252,27 +252,7 @@ public class ListOfCarsController implements Initializable {
     }
 
     public void setChangeClientInformationButtonOnAction(ActionEvent event) throws SQLException {
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        String firstName="", lastName="",emailAddress="", clientDrivingLicense="", phoneNumber="", backupPhoneNumber="";
-        int phoneID=0;
 
-        String getUserDataQuery="SELECT h.FirstName, h.LastName, h.EmailAddress, c.ClientDrivingLicense,h.PhoneID, p.PhoneNumber, p.BackupPhoneNumber " +
-                "FROM Human h, Clients c, Phones p " +
-                "WHERE h.HumanID="+DatabaseConnection.loggedID+" AND h.HumanID=c.ClientID AND h.PhoneID=p.PhoneID";
-
-        Statement statement = connectDB.createStatement();
-        ResultSet queryResult = statement.executeQuery(getUserDataQuery);
-
-        while(queryResult.next()){
-            firstName=queryResult.getString("FirstName");
-            lastName=queryResult.getString("LastName");
-            emailAddress=queryResult.getString("EmailAddress");
-            clientDrivingLicense=queryResult.getString("ClientDrivingLicense");
-            phoneID=queryResult.getInt("PhoneID");
-            phoneNumber=queryResult.getString("PhoneNumber");
-            backupPhoneNumber=queryResult.getString("BackupPhoneNumber");
-        }
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("changeClientInformationWindow.fxml"));
         try {
@@ -282,7 +262,7 @@ public class ListOfCarsController implements Initializable {
         }
 
         ChangeClientInformationController changeClientInformationController = loader.getController();
-        changeClientInformationController.setFields(firstName, lastName,emailAddress,clientDrivingLicense,phoneID, phoneNumber,backupPhoneNumber);
+        changeClientInformationController.setFields(DatabaseConnection.loggedID);
         Parent parent = loader.getRoot();
         Stage stage = new Stage();
         stage.setScene(new Scene(parent));
