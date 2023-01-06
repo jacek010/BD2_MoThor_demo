@@ -71,7 +71,7 @@
                         <Font name="Segoe UI Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="registerButton1" alignment="CENTER" layoutX="56.0" layoutY="338.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="304.0" style="-fx-background-color: #1aa3ff;" text="Login as a Employee" textFill="WHITE" textOverrun="CLIP">
+                  <Button fx:id="loginEmployeeButton" alignment="CENTER" layoutX="56.0" layoutY="338.0" mnemonicParsing="false" onAction="#loginEmployeeButtonOnAction" prefHeight="21.0" prefWidth="304.0" style="-fx-background-color: #1aa3ff;" text="Login as a Employee" textFill="WHITE" textOverrun="CLIP">
                      <font>
                         <Font name="Segoe UI Black" size="10.0" />
                      </font>
