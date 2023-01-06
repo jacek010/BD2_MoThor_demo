@@ -56,8 +56,6 @@ public class LoginController {
         Connection connectDB = connectNow.getConnection();
         String verifyLogin;
         //test new branch
-        //wathaer
-        //hello
         if(userType.equals("CLIENT")) {
             verifyLogin = "SELECT count(1), HumanID, FirstName, LastName FROM Human WHERE (Login ='" + loginUsernameField.getText() + "' and Password='" + loginPasswordField.getText() + "')AND(HumanID in (SELECT ClientID FROM Clients))";
         }
