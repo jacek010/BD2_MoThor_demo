@@ -289,6 +289,25 @@ public class ListOfCarsController implements Initializable {
         stage.initStyle(StageStyle.UTILITY);
         stage.show();
     }
+
+    public void setShowClientOrdersButtonOnAction(ActionEvent event)
+    {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("clientOrdersViewWindow.fxml"));
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        ClientOrdersViewController clientOrdersViewController = loader.getController();
+        clientOrdersViewController.setClientID(DatabaseConnection.loggedID);
+        Parent parent = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(parent));
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
     public void exitButtonOnAction(ActionEvent event){
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
