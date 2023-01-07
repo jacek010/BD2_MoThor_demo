@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="MoThorApplication.Controllers.EmployeeCarsController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <TableView fx:id="carListModelTableView1" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
+            <columns>
+                <TableColumn fx:id="carIDTableColumn" prefWidth="66.0" text="Car ID" />
+                <TableColumn fx:id="carModelTableColumn1" prefWidth="113.0" text="Car Model" />
+                <TableColumn fx:id="manufacturerTableColumn1" prefWidth="132.0" text="Manufacturer" />
+                <TableColumn fx:id="carTypeTableColumn1" prefWidth="78.0" text="Car Type" />
+                <TableColumn fx:id="colorTableColumn1" prefWidth="60.0" text="Color" />
+                <TableColumn fx:id="enginePowerTableColumn1" prefWidth="100.0" text="Engine Power" />
+                <TableColumn fx:id="costPerDayTableColumn1" prefWidth="100.0" text="Cost per day" />
+                <TableColumn fx:id="reservationTableColumn1" prefWidth="81.0" text="Edit" />
+            </columns>
+        </TableView>
+        <Button fx:id="exitButton1" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+            <font>
+                <Font name="Segoe UI Black" size="12.0" />
+            </font>
+        </Button>
+        <Label alignment="CENTER" layoutX="30.0" layoutY="18.0" prefHeight="17.0" prefWidth="47.0" text="Search">
+            <font>
+                <Font name="Segoe UI Black" size="12.0" />
+            </font>
+        </Label>
+        <TextField fx:id="keywordsCarsTextField" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Keywords..." />
+    </children>
+</AnchorPane>
