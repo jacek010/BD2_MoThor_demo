@@ -1,5 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<TabPane focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.ListOfClientsController">
+  <tabs>
+    <Tab text="Clients">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="clientsListModelTableView" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
+                     <columns>
+                        <TableColumn fx:id="clientIDTableColumn" prefWidth="53.0" text="Client ID" />
+                        <TableColumn fx:id="clientFirstNameTableColumn" prefWidth="99.0" text="First Name" />
+                        <TableColumn fx:id="clientLastNameTableColumn" prefWidth="94.0" text="Last Name" />
+                        <TableColumn fx:id="clientDrivingLicenseTableColumn" prefWidth="93.0" text="Driving License" />
+                        <TableColumn fx:id="clientPhoneNumberTableColumn" prefWidth="122.0" text="Phone Number" />
+                        <TableColumn fx:id="clientEmailAddressTableColumn" prefWidth="99.0" text="Email Address" />
+                        <TableColumn fx:id="clientPreviousOrdersTableColumn" prefWidth="101.0" text="Previous Orders" />
+                        <TableColumn fx:id="clientViewOrdersTableColumn" prefWidth="69.0" text="Orders" />
+                     </columns>
+                  </TableView>
+                  <Button fx:id="exitButton" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+                     <font>
+                        <Font name="Segoe UI Black" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label alignment="CENTER" layoutX="30.0" layoutY="18.0" prefHeight="17.0" prefWidth="47.0" text="Search">
+                     <font>
+                        <Font name="Segoe UI Black" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="keywordsClientsTextField" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Keywords..." />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="Cars">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="carListModelTableView1" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
+                     <columns>
+                        <TableColumn fx:id="carIDTableColumn" prefWidth="66.0" text="Car ID" />
+                        <TableColumn fx:id="carModelTableColumn1" prefWidth="113.0" text="Car Model" />
+                        <TableColumn fx:id="manufacturerTableColumn1" prefWidth="132.0" text="Manufacturer" />
+                        <TableColumn fx:id="carTypeTableColumn1" prefWidth="78.0" text="Car Type" />
+                        <TableColumn fx:id="colorTableColumn1" prefWidth="60.0" text="Color" />
+                        <TableColumn fx:id="enginePowerTableColumn1" prefWidth="100.0" text="Engine Power" />
+                        <TableColumn fx:id="costPerDayTableColumn1" prefWidth="100.0" text="Cost per day" />
+                        <TableColumn fx:id="reservationTableColumn1" prefWidth="81.0" text="Edit" />
+                     </columns>
+                  </TableView>
+                  <Button fx:id="exitButton1" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+                     <font>
+                        <Font name="Segoe UI Black" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label alignment="CENTER" layoutX="30.0" layoutY="18.0" prefHeight="17.0" prefWidth="47.0" text="Search">
+                     <font>
+                        <Font name="Segoe UI Black" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="keywordsCarsTextField" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Keywords..." />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="Employees">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="carListModelTableView11" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
+                     <columns>
+                        <TableColumn fx:id="employeeIDTableColumn" text="Employee ID" />
+                        <TableColumn fx:id="employeeFirstNameTableColumn" prefWidth="99.0" text="First Name" />
+                        <TableColumn fx:id="employeeLastNameTableColumn" prefWidth="132.0" text="Last Name" />
+                        <TableColumn fx:id="employeePhoneNumberTableColumn" prefWidth="158.0" text="Phone Number" />
+                        <TableColumn fx:id="employeeEmailAddressTableColumn" prefWidth="171.0" text="Email Address" />
+                        <TableColumn fx:id="promoteTableColumn" prefWidth="90.0" text="Promote" />
+                     </columns>
+                  </TableView>
+                  <Button fx:id="exitButton11" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+                     <font>
+                        <Font name="Segoe UI Black" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label alignment="CENTER" layoutX="30.0" layoutY="18.0" prefHeight="17.0" prefWidth="47.0" text="Search">
+                     <font>
+                        <Font name="Segoe UI Black" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="keywordsEmployeesTextField" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Keywords..." />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>

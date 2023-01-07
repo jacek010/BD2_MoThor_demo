@@ -3,7 +3,6 @@ package MoThorApplication.Models;
 import javafx.scene.control.Button;
 
 public class ClientCarListModel {
-
     Integer carID;
     String carModelName;
     String manufacturerName;
