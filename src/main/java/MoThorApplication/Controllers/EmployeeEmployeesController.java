@@ -66,7 +66,11 @@ public class EmployeeEmployeesController implements Initializable {
         Connection connectDB = connectNow.getConnection();
         showOrderButtons=false;
         setEmployeeAccessLevel(connectDB);
-
+        if (DatabaseConnection.accessLevel!=DatabaseConnection.AccessLevelEnum.MANAGER)
+        {
+            System.out.println("Access denied on Employees Tab - not a manager.");
+            return;
+        }
         String clientViewQuery="SELECT * FROM EmployeesDetailsView";
 
         showEmployeeView(connectDB, clientViewQuery);
