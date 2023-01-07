@@ -36,15 +36,27 @@ public class ListOfClientsController implements Initializable {
     @FXML
     private Button exitButton;
     @FXML
-    private TableView<EmployeeClientListModel> clientListModelTableView;
+    private TableView<EmployeeClientListModel> clientsListModelTableView;
     @FXML
     private TableColumn<EmployeeClientListModel, Integer> clientIDTableColumn;
     @FXML
+    private TableColumn<EmployeeClientListModel, String> clientFirstNameTableColumn;
+    @FXML
+    private TableColumn<EmployeeClientListModel, String> clientLastNameTableColumn;
+    @FXML
     private TableColumn<EmployeeClientListModel, String> clientDrivingLicenseTableColumn;
     @FXML
-    private TableColumn<EmployeeClientListModel, String> clientOrdersTableColumn;
+    private TableColumn<EmployeeClientListModel, String> clientPhoneNumberTableColumn;
     @FXML
-    private TextField keywordsTextField;
+    private TableColumn<EmployeeClientListModel, String> clientEmailAddressTableColumn;
+    @FXML
+    private TableColumn<EmployeeClientListModel, String> clientPreviousOrdersTableColumn;
+    @FXML
+    private TableColumn<EmployeeClientListModel, String> clientViewOrdersTableColumn;
+    @FXML
+    private TextField keywordsClientsTextField;
+
+    // TODO: wyznaczyc odpowiednie miejsce, do wyswietlania jako kto jest zalogowanym (i jakie pracownicze stanowisko ma) - najlepiej by pasowało po prawej stronie tabów.
     @FXML
     private Label loggedAsLabel;
 
@@ -61,16 +73,17 @@ public class ListOfClientsController implements Initializable {
         showOrderButtons=false;
         setClientAccessLevel(connectDB);
 
-        loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
+        // TODO: to samo co wyżej do lable.
+        //loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
 
         String clientViewQuery="SELECT * FROM ClientDetailsView";
 
-        showCarList(connectDB, clientViewQuery);
+        showEmployeeView(connectDB, clientViewQuery);
     }
 
-    public void showCarList(Connection connectDB,String query)
+    public void showEmployeeView(Connection connectDB,String query)
     {
-        clientListModelTableView.setItems(null);
+        clientsListModelTableView.setItems(null);
         employeeClientListModelObservableList.clear();
 
         try {
@@ -85,43 +98,52 @@ public class ListOfClientsController implements Initializable {
                     Integer queryClientID = queryResult.getInt("ClientID");
                     String queryClientFirstName = queryResult.getString("ClientFirstName");
                     String queryClientLastName = queryResult.getString("ClientLastName");
-                    String queryClientDrivingLicense = queryResult.getString("ClientDrivingLicense");
-                    String queryClientPhoneNumber = queryResult.getString("ClientPhoneNumber");
+                    String queryClientDrivingLicense = queryResult.getString("ClientDrivingLicence");
+                    String queryClientPhoneNumber = queryResult.getString("ClientPhoneNUmber");
                     String queryClientEmailAddress = queryResult.getString("ClientEmailAddress");
-                    Integer queryPreviousOrders = queryResult.getInt("previousOrders");
+                    Integer queryPreviousOrders = queryResult.getInt("PreviousOrders");
                     String queryAdditionalInfo = queryResult.getString("additionalInfo");
                     employeeClientListModelObservableList.add(new EmployeeClientListModel(queryClientID,queryClientFirstName,queryClientLastName,queryClientDrivingLicense,queryClientPhoneNumber,queryClientEmailAddress,queryPreviousOrders,queryVerified,queryAdditionalInfo));
                 }
             }
 
             clientIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientID"));
+            clientFirstNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientFirstName"));
+            clientLastNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientLastName"));
             clientDrivingLicenseTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientDrivingLicense"));
-            clientOrdersTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientPreviousOrders"));
+            clientPhoneNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientPhoneNumber"));
+            clientEmailAddressTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientEmailAddress"));
+            clientPreviousOrdersTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientPreviousOrders"));
 
             //add cell of button edit
 
-            clientListModelTableView.setItems(employeeClientListModelObservableList);
+            clientsListModelTableView.setItems(employeeClientListModelObservableList);
 
             FilteredList<EmployeeClientListModel> filteredData = new FilteredList<>(employeeClientListModelObservableList, b -> true);
 
-            keywordsTextField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(clientCarListModel -> {
+            keywordsClientsTextField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(clientsListModel -> {
+
 
                 //gdy nie ma żadnego słowa kluczowego wyświetla wszystkie dostępne rekordy
                 if (newValue.isEmpty() || newValue.isBlank()) return true;
 
                 String searchKeyword = newValue.toLowerCase();
-                if (clientCarListModel.getClientID().toString().contains(searchKeyword)) return true;
-                else if (clientCarListModel.getClientDrivingLicense().toLowerCase().contains(searchKeyword)) return true;
-                else if (clientCarListModel.getPreviousOrders().toString().contains(searchKeyword)) return true;
+                if (clientsListModel.getClientID().toString().contains(searchKeyword)) return true;
+                else if (clientsListModel.getClientFirstName().toLowerCase().contains(searchKeyword)) return true;
+                else if (clientsListModel.getClientLastName().toLowerCase().contains(searchKeyword)) return true;
+                else if (clientsListModel.getClientDrivingLicense().toLowerCase().contains(searchKeyword)) return true;
+                else if (clientsListModel.getClientPhoneNumber().toLowerCase().contains(searchKeyword)) return true;
+                else if (clientsListModel.getClientEmailAddress().toLowerCase().contains(searchKeyword)) return true;
+                else if (clientsListModel.getPreviousOrders().toString().contains(searchKeyword)) return true;
                 else return false;
 
             }));
 
             SortedList<EmployeeClientListModel> sortedData = new SortedList<>(filteredData);
 
-            sortedData.comparatorProperty().bind(clientListModelTableView.comparatorProperty());
+            sortedData.comparatorProperty().bind(clientsListModelTableView.comparatorProperty());
 
-            clientListModelTableView.setItems(sortedData);
+            clientsListModelTableView.setItems(sortedData);
 
 
             Callback<TableColumn<EmployeeClientListModel, String>, TableCell<EmployeeClientListModel, String>> cellFactory = (TableColumn<EmployeeClientListModel, String> param) -> {
@@ -138,22 +160,23 @@ public class ListOfClientsController implements Initializable {
                         } else {
 
                             //FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.CAR);
-                            Button editButton = new Button("Order");
+                            Button editButton = new Button("Orders");
                             editButton.setStyle("-fx-background-color: #1aa3ff;" +
                                     "");
                             editButton.setDisable(!showOrderButtons);
 
                             editButton.setOnMouseClicked((MouseEvent event) -> {
-                                clientListModelTableView.getSelectionModel().select(this.getIndex());
-                                carRecord = clientListModelTableView.getSelectionModel().getSelectedItem();
+                                clientsListModelTableView.getSelectionModel().select(this.getIndex());
+                                carRecord = clientsListModelTableView.getSelectionModel().getSelectedItem();
 
                                 FXMLLoader loader = new FXMLLoader();
-                                loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
-                                try {
-                                    loader.load();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
+                                // Show new form/panel after button click
+                                // loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
+                                //try {
+                                //    loader.load();
+                                //} catch (IOException ex) {
+                                //    ex.printStackTrace();
+                                //}
 
                                 //MakeAReservationController makeAReservationController = loader.getController();
                                 //makeAReservationController.setFields(carRecord.getCarID(), carRecord.getCarModelName(), carRecord.getManufacturerName(), carRecord.getCarTypeName(),
@@ -179,8 +202,8 @@ public class ListOfClientsController implements Initializable {
 
                 };
             };
-            //reservationTableColumn.setCellFactory(cellFactory);
-            clientListModelTableView.setItems(sortedData);
+            clientViewOrdersTableColumn.setCellFactory(cellFactory);
+            clientsListModelTableView.setItems(sortedData);
 
 
         } catch(SQLException e){

@@ -61,12 +61,12 @@ public class LoginController {
     public void validateLogin(String userType){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
-        String verifyLogin;
+        String verifyLogin = null;
 
         if(userType.equals("CLIENT")) {
             verifyLogin = "SELECT count(1), HumanID, FirstName, LastName FROM Human WHERE (Login ='" + loginUsernameField.getText() + "' and Password='" + loginPasswordField.getText() + "')AND(HumanID in (SELECT ClientID FROM Clients))";
         }
-        else {
+        else if(userType.equals("EMPLOYEE")) {
             verifyLogin = "SELECT count(1), HumanID, FirstName, LastName FROM Human WHERE (Login ='" + loginUsernameField.getText() + "' and Password='" + loginPasswordField.getText() + "')AND(HumanID in (SELECT EmployeeID FROM Employees))";
         }
         //String verifyLogin="SELECT count(1), HumanID, FirstName, LastName FROM Human where Login ='nunc' and Password='enim'";
@@ -85,7 +85,7 @@ public class LoginController {
                      if(userType.equals("CLIENT")){
                          openClientView();
                      }
-                     else {
+                     else if(userType.equals("EMPLOYEE")) {
                          openEmployeeView();
                      }
                  }
