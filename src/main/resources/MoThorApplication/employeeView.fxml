@@ -11,10 +11,10 @@
 <?import javafx.scene.text.Font?>
 
 <TabPane focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.ListOfClientsController">
-   <tabs>
-      <Tab text="Clients">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+  <tabs>
+    <Tab text="Clients">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <TableView fx:id="clientsListModelTableView" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
                      <columns>
@@ -40,8 +40,8 @@
                   </Label>
                   <TextField fx:id="keywordsClientsTextField" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Keywords..." />
                </children></AnchorPane>
-         </content>
-      </Tab>
+      </content>
+    </Tab>
       <Tab text="Cars">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -102,5 +102,5 @@
             </AnchorPane>
          </content>
       </Tab>
-   </tabs>
+  </tabs>
 </TabPane>
