@@ -120,7 +120,7 @@ public class LoginController {
     public void openEmployeeView(){
         try{
             closeCurrentStage();
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("employeeView.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("EmployeePanel/employeeWindow.fxml")));
             Stage registerStage = new Stage();
 
             registerStage.initStyle(StageStyle.UNDECORATED);
