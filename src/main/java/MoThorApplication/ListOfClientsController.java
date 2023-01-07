@@ -71,7 +71,7 @@ public class ListOfClientsController implements Initializable {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         showOrderButtons=false;
-        setClientAccessLevel(connectDB);
+        setEmployeeAccessLevel(connectDB);
 
         // TODO: to samo co wyżej do lable.
         //loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
@@ -113,7 +113,7 @@ public class ListOfClientsController implements Initializable {
             clientDrivingLicenseTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientDrivingLicense"));
             clientPhoneNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientPhoneNumber"));
             clientEmailAddressTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientEmailAddress"));
-            clientPreviousOrdersTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientPreviousOrders"));
+            clientPreviousOrdersTableColumn.setCellValueFactory(new PropertyValueFactory<>("previousOrders"));
 
             //add cell of button edit
 
@@ -145,7 +145,6 @@ public class ListOfClientsController implements Initializable {
 
             clientsListModelTableView.setItems(sortedData);
 
-
             Callback<TableColumn<EmployeeClientListModel, String>, TableCell<EmployeeClientListModel, String>> cellFactory = (TableColumn<EmployeeClientListModel, String> param) -> {
                 // make cell containing buttons
 
@@ -163,7 +162,7 @@ public class ListOfClientsController implements Initializable {
                             Button editButton = new Button("Orders");
                             editButton.setStyle("-fx-background-color: #1aa3ff;" +
                                     "");
-                            editButton.setDisable(!showOrderButtons);
+                            //editButton.setDisable(!showOrderButtons);
 
                             editButton.setOnMouseClicked((MouseEvent event) -> {
                                 clientsListModelTableView.getSelectionModel().select(this.getIndex());
@@ -171,14 +170,14 @@ public class ListOfClientsController implements Initializable {
 
                                 FXMLLoader loader = new FXMLLoader();
                                 // Show new form/panel after button click
-                                // loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
-                                //try {
-                                //    loader.load();
-                                //} catch (IOException ex) {
-                                //    ex.printStackTrace();
-                                //}
+                                 loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
+                                try {
+                                    loader.load();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
 
-                                //MakeAReservationController makeAReservationController = loader.getController();
+                                MakeAReservationController makeAReservationController = loader.getController();
                                 //makeAReservationController.setFields(carRecord.getCarID(), carRecord.getCarModelName(), carRecord.getManufacturerName(), carRecord.getCarTypeName(),
                                 //        carRecord.getColor(), carRecord.getEnginePower(),carRecord.getDailyLendingPrice(),startDatePicker.getValue(),endDatePicker.getValue());
                                 Parent parent = loader.getRoot();
@@ -214,61 +213,24 @@ public class ListOfClientsController implements Initializable {
 
     }
 
-    public void setClientAccessLevel(Connection connectDB)
+    public void setEmployeeAccessLevel(Connection connectDB)
     {
         DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.UNVERIFIED;
-        String query = "select Verified from Clients where ClientID="+DatabaseConnection.loggedID;
+        String query = "select JobID from Employees where EmployeeID="+DatabaseConnection.loggedID;
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(query);
 
             while(queryResult.next())
             {
-                if(queryResult.getInt(1)==1) DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.VERIFIED;
+                if(queryResult.getInt(1)==4 || queryResult.getInt(1) == 5) DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.MANAGER;
+                else DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.EMPLOYEE;
             }
         } catch (SQLException e){
             e.printStackTrace();
         }
     }
 
-    public void setChangeClientInformationButtonOnAction(ActionEvent event) throws SQLException {
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        String firstName="", lastName="",emailAddress="", clientDrivingLicense="", phoneNumber="", backupPhoneNumber="";
-        int phoneID=0;
-
-        String getUserDataQuery="SELECT h.FirstName, h.LastName, h.EmailAddress, c.ClientDrivingLicense,h.PhoneID, p.PhoneNumber, p.BackupPhoneNumber " +
-                "FROM Human h, Clients c, Phones p " +
-                "WHERE h.HumanID="+DatabaseConnection.loggedID+" AND h.HumanID=c.ClientID AND h.PhoneID=p.PhoneID";
-
-        Statement statement = connectDB.createStatement();
-        ResultSet queryResult = statement.executeQuery(getUserDataQuery);
-
-        while(queryResult.next()){
-            firstName=queryResult.getString("FirstName");
-            lastName=queryResult.getString("LastName");
-            emailAddress=queryResult.getString("EmailAddress");
-            clientDrivingLicense=queryResult.getString("ClientDrivingLicense");
-            phoneID=queryResult.getInt("PhoneID");
-            phoneNumber=queryResult.getString("PhoneNumber");
-            backupPhoneNumber=queryResult.getString("BackupPhoneNumber");
-        }
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("changeClientInformationWindow.fxml"));
-        try {
-            loader.load();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        ChangeClientInformationController changeClientInformationController = loader.getController();
-        changeClientInformationController.setFields(firstName, lastName,emailAddress,clientDrivingLicense,phoneID, phoneNumber,backupPhoneNumber);
-        Parent parent = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(parent));
-        stage.initStyle(StageStyle.UTILITY);
-        stage.show();
-    }
     public void exitButtonOnAction(ActionEvent event){
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
