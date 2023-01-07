@@ -24,7 +24,6 @@ public class LoginController {
     private Button registerButton1;
     @FXML
     private Button exitButton;
-
     @FXML
     private Label loginMessageLabel;
     @FXML
@@ -32,9 +31,7 @@ public class LoginController {
     @FXML
     private PasswordField loginPasswordField;
 
-
     public void loginButtonOnAction(ActionEvent e){
-
         if(!loginUsernameField.getText().isBlank() && !loginPasswordField.getText().isBlank()){
             loginMessageLabel.setText("Logging in... ");
             validateLogin("CLIENT");
@@ -42,6 +39,16 @@ public class LoginController {
             loginMessageLabel.setText("Please enter username and password");
         }
     }
+
+    public void loginEmployeeButtonOnAction(ActionEvent e){
+        if(!loginUsernameField.getText().isBlank() && !loginPasswordField.getText().isBlank()){
+            loginMessageLabel.setText("Logging in... ");
+            validateLogin("EMPLOYEE");
+        } else {
+            loginMessageLabel.setText("Please enter username and password");
+        }
+    }
+
     public void exitButtonOnAction(ActionEvent e){
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
@@ -54,12 +61,12 @@ public class LoginController {
     public void validateLogin(String userType){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
-        String verifyLogin;
-        //test new branch
+        String verifyLogin = null;
+        
         if(userType.equals("CLIENT")) {
             verifyLogin = "SELECT count(1), HumanID, FirstName, LastName FROM Human WHERE (Login ='" + loginUsernameField.getText() + "' and Password='" + loginPasswordField.getText() + "')AND(HumanID in (SELECT ClientID FROM Clients))";
         }
-        else {
+        else if(userType.equals("EMPLOYEE")) {
             verifyLogin = "SELECT count(1), HumanID, FirstName, LastName FROM Human WHERE (Login ='" + loginUsernameField.getText() + "' and Password='" + loginPasswordField.getText() + "')AND(HumanID in (SELECT EmployeeID FROM Employees))";
         }
         //String verifyLogin="SELECT count(1), HumanID, FirstName, LastName FROM Human where Login ='nunc' and Password='enim'";
@@ -72,11 +79,15 @@ public class LoginController {
 
                  if (queryResult.getInt(1)==1)
                  {
-
                      loginMessageLabel.setText("Welcome "+loginUsernameField.getText()+"!");
 
                      saveLoggedUserParameters(queryResult);
-                     openClientView();
+                     if(userType.equals("CLIENT")){
+                         openClientView();
+                     }
+                     else if(userType.equals("EMPLOYEE")) {
+                         openEmployeeView();
+                     }
                  }
                  else
                  {
@@ -106,6 +117,21 @@ public class LoginController {
         }
     }
 
+    public void openEmployeeView(){
+        try{
+            closeCurrentStage();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("employeeView.fxml")));
+            Stage registerStage = new Stage();
+
+            registerStage.initStyle(StageStyle.UNDECORATED);
+            registerStage.setScene(new Scene(root, 750, 450));
+            registerStage.show();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
     public void createAccountForm(){
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("registerWindow.fxml")));
