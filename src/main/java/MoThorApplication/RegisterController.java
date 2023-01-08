@@ -163,7 +163,7 @@ public class RegisterController {
         {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(InsertPhoneNumber);
-            queryResult = statement.executeQuery(InsertPhoneNumber);
+            queryResult = statement.executeQuery(getPhoneNumberID);
 
             while(queryResult.next())
             {
