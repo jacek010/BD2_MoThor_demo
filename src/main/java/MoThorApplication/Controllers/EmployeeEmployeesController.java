@@ -222,5 +222,3 @@ public class EmployeeEmployeesController implements Initializable {
         stage.close();
     }
 }
-
-

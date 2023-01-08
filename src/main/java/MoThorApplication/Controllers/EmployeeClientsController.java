@@ -95,7 +95,6 @@ public class EmployeeClientsController implements Initializable {
 
             while (queryResult.next()) {
                 Integer queryVerified = queryResult.getInt("verified");
-                if(queryVerified == 1) {
                     Integer queryClientID = queryResult.getInt("ClientID");
                     String queryClientFirstName = queryResult.getString("ClientFirstName");
                     String queryClientLastName = queryResult.getString("ClientLastName");
@@ -105,7 +104,6 @@ public class EmployeeClientsController implements Initializable {
                     Integer queryPreviousOrders = queryResult.getInt("PreviousOrders");
                     String queryAdditionalInfo = queryResult.getString("additionalInfo");
                     employeeClientListModelObservableList.add(new EmployeeClientListModel(queryClientID,queryClientFirstName,queryClientLastName,queryClientDrivingLicense,queryClientPhoneNumber,queryClientEmailAddress,queryPreviousOrders,queryVerified,queryAdditionalInfo));
-                }
             }
 
             clientIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientID"));
