@@ -2,27 +2,25 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="MoThorApplication.Controllers.EmployeeOrdersController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.EmployeePanel.EmployeeOrdersController">
 
     <children>
-        <TableView fx:id="carListModelTableView1" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
+        <TableView fx:id="employeeOrdersViewModelTableView" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
             <columns>
-                <TableColumn fx:id="carIDTableColumn" prefWidth="66.0" text="Car ID" />
-                <TableColumn fx:id="carModelTableColumn1" prefWidth="113.0" text="Car Model" />
-                <TableColumn fx:id="manufacturerTableColumn1" prefWidth="132.0" text="Manufacturer" />
-                <TableColumn fx:id="carTypeTableColumn1" prefWidth="78.0" text="Car Type" />
-                <TableColumn fx:id="colorTableColumn1" prefWidth="60.0" text="Color" />
-                <TableColumn fx:id="enginePowerTableColumn1" prefWidth="100.0" text="Engine Power" />
-                <TableColumn fx:id="costPerDayTableColumn1" prefWidth="100.0" text="Cost per day" />
-                <TableColumn fx:id="reservationTableColumn1" prefWidth="81.0" text="Edit" />
+                <TableColumn fx:id="orderIDTableColumn" minWidth="65.0" prefWidth="-1.0" text="Order ID" />
+                <TableColumn fx:id="clientIDTableColumn" minWidth="65.0" prefWidth="-1.0" text="Client ID" />
+                <TableColumn fx:id="employeeIDTableColumn" minWidth="80.0" prefWidth="-1.0" text="Employee ID" />
+                <TableColumn fx:id="carIDTableColumn" minWidth="70.0" prefWidth="-1.0" text="Car ID" />
+                <TableColumn fx:id="startDateTableColumn" minWidth="110.0" prefWidth="-1.0" text="Start Date" />
+                <TableColumn fx:id="endDateTableColumn" minWidth="110.0" prefWidth="-1.0" text="End Date" />
+                <TableColumn fx:id="orderStatusTableColumn" minWidth="80.0" prefWidth="-1.0" text="Order status" />
+                <TableColumn fx:id="fullLendingPriceTableColumn" minWidth="70.0" prefWidth="-1.0" text="Full Price" />
+                <TableColumn fx:id="detailsTableColumn" minWidth="80.0" prefWidth="-1.0" text="Details" />
             </columns>
         </TableView>
-        <Button fx:id="exitButton1" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+        <Button fx:id="exitButton" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
             <font>
                 <Font name="Segoe UI Black" size="12.0" />
             </font>
@@ -32,6 +30,6 @@
                 <Font name="Segoe UI Black" size="12.0" />
             </font>
         </Label>
-        <TextField fx:id="keywordsCarsTextField" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Keywords..." />
+        <TextField fx:id="keywordsOrdersTextField" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Keywords..." />
     </children>
 </AnchorPane>

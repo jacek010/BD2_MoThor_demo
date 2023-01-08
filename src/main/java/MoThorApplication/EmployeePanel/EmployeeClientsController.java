@@ -1,4 +1,4 @@
-package MoThorApplication.Controllers;
+package MoThorApplication.EmployeePanel;
 
 import MoThorApplication.DatabaseConnection;
 import MoThorApplication.ListOfCarsController;

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.EmployeePanel.EmployeeOrderDetailsController">
+   <children>
+      <AnchorPane prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #1aa3ff;">
+         <children>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="-1.0" prefHeight="82.0" prefWidth="162.0" text="MoThor" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="31.0" />
+               </font>
+            </Label>
+            <Line endX="-115.0" endY="-33.0" layoutX="300.0" layoutY="41.0" startX="-115.0" startY="31.0" stroke="WHITE" strokeLineCap="ROUND" strokeWidth="3.0" />
+            <Label fx:id="orderDetailsWindowHeaderLabel" alignment="CENTER" layoutX="196.0" layoutY="-1.0" prefHeight="82.0" prefWidth="406.0" text="Order no. details" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="21.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <AnchorPane prefHeight="318.0" prefWidth="600.0" style="-fx-background-color: #e6f5ff;">
+         <children>
+            <TextField fx:id="clientIDTextField" alignment="CENTER" layoutX="52.0" layoutY="18.0" prefHeight="25.0" prefWidth="90.0" promptText="Client ID" />
+            <TextField fx:id="employeeIDTextField" alignment="CENTER" layoutX="255.0" layoutY="18.0" prefHeight="25.0" prefWidth="90.0" promptText="Employee ID" />
+            <TextField fx:id="clientFirstNameTextField" alignment="CENTER" layoutX="26.0" layoutY="51.0" prefHeight="25.0" prefWidth="141.0" promptText="Client First Name" />
+            <TextField fx:id="clientLastNameTextField" alignment="CENTER" layoutX="26.0" layoutY="86.0" prefHeight="25.0" prefWidth="141.0" promptText="Client Last Name" />
+            <TextField fx:id="employeeFirstNameTextField" alignment="CENTER" layoutX="230.0" layoutY="51.0" prefHeight="25.0" prefWidth="141.0" promptText="Employee First Name" />
+            <TextField fx:id="employeeLastNameTextField" alignment="CENTER" layoutX="230.0" layoutY="86.0" prefHeight="25.0" prefWidth="141.0" promptText="Employee Last Name" />
+            <TextField fx:id="carIDTextField" alignment="CENTER" layoutX="450.0" layoutY="18.0" prefHeight="25.0" prefWidth="90.0" promptText="Car ID" />
+            <TextField fx:id="carNameTextField" alignment="CENTER" layoutX="425.0" layoutY="51.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Name" />
+            <TextField fx:id="carTypeTextField" alignment="CENTER" layoutX="425.0" layoutY="86.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Type" />
+            <TextField fx:id="carManufacturerTextField" alignment="CENTER" layoutX="425.0" layoutY="121.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Manufacturer" />
+            <DatePicker fx:id="startDatePicker" layoutX="10.0" layoutY="121.0" promptText="Start Date" />
+            <DatePicker fx:id="endDatePicker" layoutX="10.0" layoutY="159.0" promptText="End Date" />
+            <Button fx:id="submitChanges" layoutX="26.0" layoutY="279.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Submit changes" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font></Button>
+            <Button fx:id="exitButton" layoutX="359.0" layoutY="279.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font>
+            </Button>
+            <Label fx:id="submitStatusLabel" alignment="CENTER" layoutX="27.0" layoutY="1.0" prefHeight="17.0" prefWidth="548.0" textFill="#1aa3ff">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font></Label>
+            <TextArea fx:id="additionalInfoTextArea" layoutX="69.0" layoutY="231.0" prefHeight="42.0" prefWidth="476.0" promptText="Additional info" />
+            <RadioButton fx:id="reservationRadioButton" layoutX="51.0" layoutY="203.0" mnemonicParsing="false" text="Reservation">
+               <toggleGroup>
+                  <ToggleGroup fx:id="orderStatus" />
+               </toggleGroup>
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="startedRadioButton" layoutX="255.0" layoutY="203.0" mnemonicParsing="false" text="Started" toggleGroup="$orderStatus">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="finishedRadioButton" layoutX="438.0" layoutY="203.0" mnemonicParsing="false" text="Ended" toggleGroup="$orderStatus">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font>
+            </RadioButton>
+
+
+
+         </children></AnchorPane>
+   </children>
+</VBox>

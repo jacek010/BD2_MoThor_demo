@@ -1,4 +1,4 @@
-package MoThorApplication.Controllers;
+package MoThorApplication.EmployeePanel;
 
 import javafx.event.ActionEvent;
 
