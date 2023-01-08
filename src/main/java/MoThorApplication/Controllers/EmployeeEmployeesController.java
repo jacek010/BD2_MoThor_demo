@@ -71,9 +71,9 @@ public class EmployeeEmployeesController implements Initializable {
             System.out.println("Access denied on Employees Tab - not a manager.");
             return;
         }
-        String clientViewQuery="SELECT * FROM EmployeesDetailsView";
+        String employeeViewQuery="SELECT * FROM EmployeesDetailsView WHERE JobName != 'Manager' AND JobName != 'Administrator'";
 
-        showEmployeeView(connectDB, clientViewQuery);
+        showEmployeeView(connectDB, employeeViewQuery);
     }
 
     public void showEmployeeView(Connection connectDB,String query)
@@ -160,28 +160,7 @@ public class EmployeeEmployeesController implements Initializable {
                             //editButton.setDisable(!showOrderButtons);
 
                             editButton.setOnMouseClicked((MouseEvent event) -> {
-                                employeesListModelTableView.getSelectionModel().select(this.getIndex());
-                                carRecord = employeesListModelTableView.getSelectionModel().getSelectedItem();
-
-                                FXMLLoader loader = new FXMLLoader();
-                                // Show new form/panel after button click
-                                loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
-                                try {
-                                    loader.load();
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-
-                                MakeAReservationController makeAReservationController = loader.getController();
-                                //makeAReservationController.setFields(carRecord.getCarID(), carRecord.getCarModelName(), carRecord.getManufacturerName(), carRecord.getCarTypeName(),
-                                //        carRecord.getColor(), carRecord.getEnginePower(),carRecord.getDailyLendingPrice(),startDatePicker.getValue(),endDatePicker.getValue());
-                                Parent parent = loader.getRoot();
-                                Stage stage = new Stage();
-                                stage.setScene(new Scene(parent));
-                                stage.initStyle(StageStyle.UTILITY);
-                                stage.show();
-
-
+                                //promocja praownika do menedzera
                             });
 
                             HBox manageBtn = new HBox(editButton);
