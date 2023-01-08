@@ -54,8 +54,6 @@ public class EmployeeEmployeesController implements Initializable {
     @FXML
     private TextField keywordsEmployeesTextField;
 
-    EmployeeEmployeesListModel carRecord;
-
     ObservableList<EmployeeEmployeesListModel> employeeEmployeesListModelObservableList = FXCollections.observableArrayList();
 
     boolean showOrderButtons = false;
@@ -140,39 +138,39 @@ public class EmployeeEmployeesController implements Initializable {
 
             employeesListModelTableView.setItems(sortedData);
 
-            Callback<TableColumn<EmployeeEmployeesListModel, String>, TableCell<EmployeeEmployeesListModel, String>> cellFactory = (TableColumn<EmployeeEmployeesListModel, String> param) -> {
+            Callback<TableColumn<EmployeeEmployeesListModel, String>, TableCell<EmployeeEmployeesListModel, String>> cellFactory = (TableColumn<EmployeeEmployeesListModel, String> param) ->
+            {
                 // make cell containing buttons
-
-                return new TableCell<EmployeeEmployeesListModel, String>() {
+                return new TableCell<EmployeeEmployeesListModel, String>()
+                {
                     @Override
-                    public void updateItem(String item, boolean empty) {
+                    public void updateItem(String item, boolean empty)
+                    {
                         super.updateItem(item, empty);
                         //that cell created only on non-empty rows
-                        if (empty) {
+                        if (empty)
+                        {
                             setGraphic(null);
-
-                        } else {
-
-                            //FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.CAR);
+                        }
+                        else
+                        {
                             Button editButton = new Button("Promote");
-                            editButton.setStyle("-fx-background-color: #1aa3ff;" +
-                                    "");
-                            //editButton.setDisable(!showOrderButtons);
+                            editButton.setStyle("-fx-background-color: #1aa3ff;" + "");
 
-                            editButton.setOnMouseClicked((MouseEvent event) -> {
-                                //promocja praownika do menedzera
+                            editButton.setOnAction(event ->
+                            {
+                                //promocja pracownika do managera
+                                TableRow row = getTableRow();
+                                EmployeeEmployeesListModel employee = (EmployeeEmployeesListModel) row.getItem();
+                                promoteEmployee(employee.getEmployeeID(), connectDB);
                             });
-
                             HBox manageBtn = new HBox(editButton);
                             manageBtn.setStyle("-fx-alignment:center");
                             HBox.setMargin(editButton, new Insets(2, 3, 0, 2));
-
                             setGraphic(manageBtn);
                         }
                         setText(null);
-
                     }
-
                 };
             };
 
@@ -188,7 +186,19 @@ public class EmployeeEmployeesController implements Initializable {
 
     }
 
-
+    public void promoteEmployee(int EmployeeID, Connection connectDB)
+    {
+        String promoteEmployee = "UPDATE Employees SET JobID = 4 WHERE EmployeeID ="+EmployeeID+"";
+        try
+        {
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(promoteEmployee);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
     public void setEmployeeAccessLevel(Connection connectDB)
     {
         DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.UNVERIFIED;
