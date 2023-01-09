@@ -1,8 +1,8 @@
-package MoThorApplication.Controllers;
+package MoThorApplication.EmployeePanel;
 
 import javafx.event.ActionEvent;
 
-public class EmployeeOrdersController {
+public class EmployeeEmployeesController {
     public void exitButtonOnAction(ActionEvent actionEvent) {
     }
 }
