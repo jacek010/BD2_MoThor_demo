@@ -9,14 +9,15 @@
             fx:controller="MoThorApplication.EmployeePanel.EmployeeEmployeesController"
             prefHeight="400.0" prefWidth="600.0">
     <children>
-        <TableView fx:id="carListModelTableView" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
+
+        <TableView fx:id="employeesListModelTableView" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
             <columns>
                 <TableColumn fx:id="employeeIDTableColumn" text="Employee ID" />
                 <TableColumn fx:id="employeeFirstNameTableColumn" prefWidth="99.0" text="First Name" />
                 <TableColumn fx:id="employeeLastNameTableColumn" prefWidth="132.0" text="Last Name" />
                 <TableColumn fx:id="employeePhoneNumberTableColumn" prefWidth="158.0" text="Phone Number" />
                 <TableColumn fx:id="employeeEmailAddressTableColumn" prefWidth="171.0" text="Email Address" />
-                <TableColumn fx:id="promoteTableColumn" prefWidth="90.0" text="Promote" />
+                <TableColumn fx:id="employeePromoteTableColumn" prefWidth="90.0" text="Promote" />
             </columns>
         </TableView>
         <Button fx:id="exitButton" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
