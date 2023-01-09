@@ -5,7 +5,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.EmployeePanel.EmployeeOrderDetailsController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="518.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.EmployeePanel.EmployeeOrderDetailsController">
    <children>
       <AnchorPane prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #1aa3ff;">
          <children>
@@ -21,7 +21,7 @@
                </font>
             </Label>
          </children></AnchorPane>
-      <AnchorPane prefHeight="318.0" prefWidth="600.0" style="-fx-background-color: #e6f5ff;">
+      <AnchorPane prefHeight="428.0" prefWidth="600.0" style="-fx-background-color: #e6f5ff;">
          <children>
             <TextField fx:id="clientIDTextField" alignment="CENTER" layoutX="52.0" layoutY="18.0" prefHeight="25.0" prefWidth="90.0" promptText="Client ID" />
             <TextField fx:id="employeeIDTextField" alignment="CENTER" layoutX="255.0" layoutY="18.0" prefHeight="25.0" prefWidth="90.0" promptText="Employee ID" />
@@ -33,13 +33,20 @@
             <TextField fx:id="carNameTextField" alignment="CENTER" layoutX="425.0" layoutY="51.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Name" />
             <TextField fx:id="carTypeTextField" alignment="CENTER" layoutX="425.0" layoutY="86.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Type" />
             <TextField fx:id="carManufacturerTextField" alignment="CENTER" layoutX="425.0" layoutY="121.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Manufacturer" />
-            <DatePicker fx:id="startDatePicker" layoutX="10.0" layoutY="121.0" promptText="Start Date" />
-            <DatePicker fx:id="endDatePicker" layoutX="10.0" layoutY="159.0" promptText="End Date" />
-            <Button fx:id="submitChanges" layoutX="26.0" layoutY="279.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Submit changes" textAlignment="CENTER" textFill="WHITE">
+            <DatePicker fx:id="startDatePicker" layoutX="80.0" layoutY="253.0" promptText="Start Date" />
+            <DatePicker fx:id="endDatePicker" layoutX="325.0" layoutY="253.0" promptText="End Date" />
+            <TextField fx:id="clientDrivingLicenseTextField" alignment="CENTER" layoutX="26.0" layoutY="121.0" prefHeight="25.0" prefWidth="141.0" promptText="Client Driving Lcense" />
+            <TextField fx:id="clientPhoneNumberTextField" alignment="CENTER" layoutX="27.0" layoutY="157.0" prefHeight="25.0" prefWidth="141.0" promptText="Client Phone Number" />
+            <TextField fx:id="clientEmailAddressTextField" alignment="CENTER" layoutX="27.0" layoutY="189.0" prefHeight="25.0" prefWidth="141.0" promptText="Client Email Address" />
+            <TextField fx:id="carColorTextField" alignment="CENTER" layoutX="425.0" layoutY="157.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Color" />
+            <TextField fx:id="fullPriceTextField" alignment="CENTER" layoutX="214.0" layoutY="284.0" prefHeight="25.0" prefWidth="141.0" promptText="Full Price" />
+            <TextField fx:id="carEnginePowerTextField" alignment="CENTER" layoutX="425.0" layoutY="189.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Engine Power" />
+            <TextField fx:id="carPricePerDayTextField" alignment="CENTER" layoutX="425.0" layoutY="221.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Price Per Day" />
+            <Button fx:id="submitChanges" layoutX="26.0" layoutY="389.0" mnemonicParsing="false" onAction="#submitButtonOnAction" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Submit changes" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font></Button>
-            <Button fx:id="exitButton" layoutX="359.0" layoutY="279.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+            <Button fx:id="exitButton" layoutX="359.0" layoutY="389.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
@@ -48,8 +55,8 @@
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font></Label>
-            <TextArea fx:id="additionalInfoTextArea" layoutX="69.0" layoutY="231.0" prefHeight="42.0" prefWidth="476.0" promptText="Additional info" />
-            <RadioButton fx:id="reservationRadioButton" layoutX="51.0" layoutY="203.0" mnemonicParsing="false" text="Reservation">
+            <TextArea fx:id="additionalInfoTextArea" layoutX="69.0" layoutY="341.0" prefHeight="42.0" prefWidth="476.0" promptText="Additional info" />
+            <RadioButton fx:id="reservationRadioButton" layoutX="51.0" layoutY="313.0" mnemonicParsing="false" text="Reservation">
                <toggleGroup>
                   <ToggleGroup fx:id="orderStatus" />
                </toggleGroup>
@@ -57,16 +64,17 @@
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="startedRadioButton" layoutX="255.0" layoutY="203.0" mnemonicParsing="false" text="Started" toggleGroup="$orderStatus">
+            <RadioButton fx:id="activeRadioButton" layoutX="255.0" layoutY="313.0" mnemonicParsing="false" text="Active" toggleGroup="$orderStatus">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="finishedRadioButton" layoutX="438.0" layoutY="203.0" mnemonicParsing="false" text="Ended" toggleGroup="$orderStatus">
+            <RadioButton fx:id="finishedRadioButton" layoutX="438.0" layoutY="313.0" mnemonicParsing="false" text="Ended" toggleGroup="$orderStatus">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </RadioButton>
+
 
 
 

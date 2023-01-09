@@ -156,7 +156,7 @@ public class EmployeeOrdersController implements Initializable {
 
                                 EmployeeOrderDetailsController employeeOrderDetailsController = loader.getController();
                                 try {
-                                    employeeOrderDetailsController.setFields(orderRecord.getOrderID());
+                                    employeeOrderDetailsController.getData(orderRecord.getOrderID());
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
