@@ -67,6 +67,15 @@ public class EmployeeOrdersController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        getData();
+    }
+
+
+    public void getData()
+    {
+        employeeOrdersViewModelTableView.setItems(null);
+        employeeOrdersViewModelObservableList.clear();
+
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
@@ -191,7 +200,6 @@ public class EmployeeOrdersController implements Initializable {
 
 
     }
-
 
 
     public void exitButtonOnAction(ActionEvent actionEvent) {

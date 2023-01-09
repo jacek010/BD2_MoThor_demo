@@ -2,9 +2,11 @@ package MoThorApplication.EmployeePanel;
 
 import MoThorApplication.DatabaseConnection;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,7 +47,7 @@ public class EmployeeOrderDetailsController {
     public TextField carEnginePowerTextField;
     public TextField carPricePerDayTextField;
 
-    private Integer impClientID, impEmployeeID, impCarID, impCarEnginePower;
+    private Integer impOrderID, impClientID, impEmployeeID, impCarID, impCarEnginePower;
     private Float impCarPricePerDay, impFullPrice;
     private String  impClientFirstName, impClientLastName, impClientDrivingLicense, impClientPhoneNumber, impClientEmailAddress, impEmployeeFirstName, impEmployeeLastName,
             impCarName, impCarType, impCarManufacturer, impCarColor, impOrderStatus, impStartDate, impEndDate, impAdditionalInfo;
@@ -53,6 +55,7 @@ public class EmployeeOrderDetailsController {
     public void getData(int orderID) throws SQLException
     {
         orderDetailsWindowHeaderLabel.setText("Order no."+orderID+" details");
+        impOrderID=orderID;
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
@@ -148,12 +151,26 @@ public class EmployeeOrderDetailsController {
         }
     }
 
-    public void submitButtonOnAction(ActionEvent event)
-    {
+    public void submitButtonOnAction(ActionEvent event) throws SQLException {
+        String orderStatusAfter="";
+        if(reservationRadioButton.isSelected()) orderStatusAfter="Reservation";
+        else if (activeRadioButton.isSelected()) orderStatusAfter="Active";
+        else if(finishedRadioButton.isSelected()) orderStatusAfter="Finished";
 
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        Statement statement = connectDB.createStatement();
+
+        String updateOrder="UPDATE Orders SET OrderStatus='"+orderStatusAfter+"', EmployeeID="+Integer.valueOf(employeeIDTextField.getText())+", AdditionalInfo='"+additionalInfoTextArea.getText()+"' WHERE OrderID="+impOrderID;
+
+        statement.executeQuery(updateOrder);
 
         Stage stage = (Stage) submitChanges.getScene().getWindow();
+        stage.close();
+
     }
+
+
 
 
     public void exitButtonOnAction(ActionEvent event){
