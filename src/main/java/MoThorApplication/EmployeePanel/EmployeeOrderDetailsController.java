@@ -180,25 +180,30 @@ public class EmployeeOrderDetailsController {
 
         //System.out.println(newEmployeeID);
 
-        if(newEmployeeID>0){
-            String employeeInfoQuery = "SELECT count(1), FirstName, LastName FROM Human WHERE (HumanID ='" + newEmployeeID + "')AND(HumanID in (SELECT EmployeeID FROM Employees))";
-            ResultSet results = statement.executeQuery(employeeInfoQuery);
-            while (results.next()){
-                countID=results.getInt(1);
-                newFirstName=results.getString("FirstName");
-                newLastName=results.getString("LastName");
-            }
-            if(countID==0){
-                submitStatusLabel.setText("Nie ma pracownika o takim ID!");
-            }
-            else{
-
-                submitStatusLabel.setText("Od teraz pracownik obsługujący to zamówienie to "+newFirstName+" "+newLastName);
-            }
-
+        if(newEmployeeID==0){
+            newEmployeeID=impEmployeeID;
+            employeeIDTextField.setText(newEmployeeID.toString());
+        }
+        String employeeInfoQuery = "SELECT count(1), FirstName, LastName FROM Human WHERE (HumanID ='" + newEmployeeID + "')AND(HumanID in (SELECT EmployeeID FROM Employees))";
+        ResultSet results = statement.executeQuery(employeeInfoQuery);
+        while (results.next()){
+            countID=results.getInt(1);
+            newFirstName=results.getString("FirstName");
+            newLastName=results.getString("LastName");
+        }
+        if(countID==0){
+            submitStatusLabel.setText("Nie ma pracownika o takim ID!");
+            newEmployeeID=impEmployeeID;
+            employeeIDTextField.setText(newEmployeeID.toString());
+        }
+        else{
             employeeFirstNameTextField.setText(newFirstName);
             employeeLastNameTextField.setText(newLastName);
+            submitStatusLabel.setText("Od teraz pracownik obsługujący to zamówienie to "+newFirstName+" "+newLastName);
         }
+
+
+
     }
 
     public void onCarIDChanged(ActionEvent event) throws SQLException
@@ -211,40 +216,43 @@ public class EmployeeOrderDetailsController {
         Integer newCarID=Integer.parseInt(carIDTextField.getText()), newCarEnginePower=0;
         Float newCarPricePerDay= 0.0F;
 
-        if(newCarID>0)
-        {
-            String carIDInfoQuery="SELECT count(1) FROM ClientView WHERE CarID="+newCarID;
-                ResultSet resultsID = statement.executeQuery(carIDInfoQuery);
-                while (resultsID.next()) {
-                    countID = resultsID.getInt(1);
-                }
-            if(countID==0){
-                submitStatusLabel.setText("Nie ma samochodu o takim ID!");
-            }
-            else{
-                String carInfoQuery="SELECT* FROM ClientView WHERE CarID="+newCarID;
-                ResultSet results = statement.executeQuery(carInfoQuery);
-                while (results.next()) {
-                    countID = results.getInt(1);
-                    newCarName = results.getString("CarModelName");
-                    newCarTypeName = results.getString("CarTypeName");
-                    newCarManufacturer = results.getString("ManufacturerName");
-                    newCarColor = results.getString("Color");
-                    newCarEnginePower = results.getInt("EnginePower");
-                    newCarPricePerDay = results.getFloat("DailyLendingPrice");
-                }
-                submitStatusLabel.setText("Zmieniono samochód z "+impCarID+"(ID) na "+newCarID+"(ID)");
-
-                carNameTextField.setText(newCarName);
-                carManufacturerTextField.setText(newCarManufacturer);
-                carTypeTextField.setText(newCarTypeName);
-                carColorTextField.setText(newCarColor);
-                carEnginePowerTextField.setText(newCarEnginePower.toString());
-                carPricePerDayTextField.setText(newCarPricePerDay.toString());
-
-                recalculateFullPrice();
-            }
+        if(newCarID==0){
+            newCarID=impCarID;
+            carIDTextField.setText(impCarID.toString());
         }
+        String carIDInfoQuery="SELECT count(1) FROM ClientView WHERE CarID="+newCarID;
+            ResultSet resultsID = statement.executeQuery(carIDInfoQuery);
+            while (resultsID.next()) {
+                countID = resultsID.getInt(1);
+            }
+        if(countID==0){
+            submitStatusLabel.setText("Nie ma samochodu o takim ID!");
+        }
+        else{
+
+            String carInfoQuery="SELECT* FROM ClientView WHERE CarID="+newCarID;
+            ResultSet results = statement.executeQuery(carInfoQuery);
+            while (results.next()) {
+                countID = results.getInt(1);
+                newCarName = results.getString("CarModelName");
+                newCarTypeName = results.getString("CarTypeName");
+                newCarManufacturer = results.getString("ManufacturerName");
+                newCarColor = results.getString("Color");
+                newCarEnginePower = results.getInt("EnginePower");
+                newCarPricePerDay = results.getFloat("DailyLendingPrice");
+            }
+            submitStatusLabel.setText("Zmieniono samochód z "+impCarID+"(ID) na "+newCarID+"(ID)");
+
+            carNameTextField.setText(newCarName);
+            carManufacturerTextField.setText(newCarManufacturer);
+            carTypeTextField.setText(newCarTypeName);
+            carColorTextField.setText(newCarColor);
+            carEnginePowerTextField.setText(newCarEnginePower.toString());
+            carPricePerDayTextField.setText(newCarPricePerDay.toString());
+
+            recalculateFullPrice();
+        }
+
     }
 
     public void onStartDateChanged(ActionEvent event)
