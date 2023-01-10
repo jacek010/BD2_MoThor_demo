@@ -24,17 +24,17 @@
       <AnchorPane prefHeight="428.0" prefWidth="600.0" style="-fx-background-color: #e6f5ff;">
          <children>
             <TextField fx:id="clientIDTextField" alignment="CENTER" editable="false" layoutX="52.0" layoutY="18.0" prefHeight="25.0" prefWidth="90.0" promptText="Client ID" />
-            <TextField fx:id="employeeIDTextField" alignment="CENTER" editable="false" layoutX="255.0" layoutY="18.0" prefHeight="25.0" prefWidth="90.0" promptText="Employee ID" />
+            <TextField fx:id="employeeIDTextField" alignment="CENTER" layoutX="255.0" layoutY="18.0" onAction="#onEmployeeIDChanged" onInputMethodTextChanged="#onEmployeeIDChanged" prefHeight="25.0" prefWidth="90.0" promptText="Employee ID" />
             <TextField fx:id="clientFirstNameTextField" alignment="CENTER" editable="false" layoutX="26.0" layoutY="51.0" prefHeight="25.0" prefWidth="141.0" promptText="Client First Name" />
             <TextField fx:id="clientLastNameTextField" alignment="CENTER" editable="false" layoutX="26.0" layoutY="86.0" prefHeight="25.0" prefWidth="141.0" promptText="Client Last Name" />
             <TextField fx:id="employeeFirstNameTextField" alignment="CENTER" editable="false" layoutX="230.0" layoutY="51.0" prefHeight="25.0" prefWidth="141.0" promptText="Employee First Name" />
             <TextField fx:id="employeeLastNameTextField" alignment="CENTER" editable="false" layoutX="230.0" layoutY="86.0" prefHeight="25.0" prefWidth="141.0" promptText="Employee Last Name" />
-            <TextField fx:id="carIDTextField" alignment="CENTER" editable="false" layoutX="450.0" layoutY="18.0" prefHeight="25.0" prefWidth="90.0" promptText="Car ID" />
+            <TextField fx:id="carIDTextField" alignment="CENTER" layoutX="450.0" layoutY="18.0" onAction="#onCarIDChanged" onInputMethodTextChanged="#onCarIDChanged" prefHeight="25.0" prefWidth="90.0" promptText="Car ID" />
             <TextField fx:id="carNameTextField" alignment="CENTER" editable="false" layoutX="425.0" layoutY="51.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Name" />
             <TextField fx:id="carTypeTextField" alignment="CENTER" editable="false" layoutX="425.0" layoutY="86.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Type" />
             <TextField fx:id="carManufacturerTextField" alignment="CENTER" editable="false" layoutX="425.0" layoutY="121.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Manufacturer" />
-            <DatePicker fx:id="startDatePicker" disable="true" editable="false" layoutX="80.0" layoutY="253.0" promptText="Start Date" />
-            <DatePicker fx:id="endDatePicker" disable="true" editable="false" layoutX="325.0" layoutY="253.0" promptText="End Date" />
+            <DatePicker fx:id="startDatePicker" layoutX="80.0" layoutY="253.0" onAction="#onStartDateChanged" promptText="Start Date" />
+            <DatePicker fx:id="endDatePicker" layoutX="325.0" layoutY="253.0" onAction="#onEndDateChanged" promptText="End Date" />
             <TextField fx:id="clientDrivingLicenseTextField" alignment="CENTER" editable="false" layoutX="26.0" layoutY="121.0" prefHeight="25.0" prefWidth="141.0" promptText="Client Driving Lcense" />
             <TextField fx:id="clientPhoneNumberTextField" alignment="CENTER" editable="false" layoutX="27.0" layoutY="157.0" prefHeight="25.0" prefWidth="141.0" promptText="Client Phone Number" />
             <TextField fx:id="clientEmailAddressTextField" alignment="CENTER" editable="false" layoutX="27.0" layoutY="189.0" prefHeight="25.0" prefWidth="141.0" promptText="Client Email Address" />
@@ -42,11 +42,11 @@
             <TextField fx:id="fullPriceTextField" alignment="CENTER" editable="false" layoutX="214.0" layoutY="284.0" prefHeight="25.0" prefWidth="141.0" promptText="Full Price" />
             <TextField fx:id="carEnginePowerTextField" alignment="CENTER" editable="false" layoutX="425.0" layoutY="189.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Engine Power" />
             <TextField fx:id="carPricePerDayTextField" alignment="CENTER" editable="false" layoutX="425.0" layoutY="221.0" prefHeight="25.0" prefWidth="141.0" promptText="Car Price Per Day" />
-            <Button fx:id="submitChanges" layoutX="26.0" layoutY="389.0" mnemonicParsing="false" onAction="#submitButtonOnAction" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Submit changes" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="submitChanges" layoutX="14.0" layoutY="389.0" mnemonicParsing="false" onAction="#submitButtonOnAction" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Submit changes" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font></Button>
-            <Button fx:id="exitButton" layoutX="359.0" layoutY="389.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+            <Button fx:id="exitButton" layoutX="371.0" layoutY="389.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="25.0" prefWidth="216.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
@@ -74,6 +74,11 @@
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </RadioButton>
+            <Button fx:id="deleteOrderButton" layoutX="244.0" layoutY="389.0" mnemonicParsing="false" onAction="#setDeleteOrderButtonOnAction" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: c43e3e;" text="Delete order" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font>
+            </Button>
 
 
 

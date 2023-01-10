@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 public class EmployeeOrderDetailsController {
 
@@ -36,6 +38,7 @@ public class EmployeeOrderDetailsController {
     public RadioButton finishedRadioButton;
 
     public Button exitButton;
+    public Button deleteOrderButton;
     public Label orderDetailsWindowHeaderLabel;
     public DatePicker startDatePicker;
     public DatePicker endDatePicker;
@@ -51,11 +54,15 @@ public class EmployeeOrderDetailsController {
     private Float impCarPricePerDay, impFullPrice;
     private String  impClientFirstName, impClientLastName, impClientDrivingLicense, impClientPhoneNumber, impClientEmailAddress, impEmployeeFirstName, impEmployeeLastName,
             impCarName, impCarType, impCarManufacturer, impCarColor, impOrderStatus, impStartDate, impEndDate, impAdditionalInfo;
+    private Boolean orderDateUpdated;
+    private Boolean orderCarUpdated;
 
     public void getData(int orderID) throws SQLException
     {
         orderDetailsWindowHeaderLabel.setText("Order no."+orderID+" details");
         impOrderID=orderID;
+        orderDateUpdated=false;
+        orderCarUpdated=false;
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
@@ -96,7 +103,7 @@ public class EmployeeOrderDetailsController {
         }
 
         // w momencie, gdy klient składa rezerwację, id pracownika jest puste, więc przypisane zostanie id tego, który to zamówienie zrealizuje
-        if(impEmployeeID!=null) {
+        if(impEmployeeID!=0) {
             String employeeInfoQuery = "SELECT FirstName, LastName FROM Human WHERE HumanID=" + impEmployeeID;
             results = statement.executeQuery(employeeInfoQuery);
 
@@ -151,6 +158,111 @@ public class EmployeeOrderDetailsController {
         }
     }
 
+    public void recalculateFullPrice()
+    {
+        float carPricePerDay= Float.parseFloat(carPricePerDayTextField.getText());
+
+        long daysBetween = ChronoUnit.DAYS.between(startDatePicker.getValue(), endDatePicker.getValue());
+        float fullCost=Math.toIntExact(daysBetween)*carPricePerDay;
+
+        fullPriceTextField.setText(Float.toString(fullCost));
+    }
+
+
+    public void onEmployeeIDChanged(ActionEvent event) throws SQLException
+    {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        Statement statement = connectDB.createStatement();
+        String newFirstName="", newLastName="";
+        int countID=0;
+        Integer newEmployeeID=Integer.parseInt(employeeIDTextField.getText());
+
+        //System.out.println(newEmployeeID);
+
+        if(newEmployeeID>0){
+            String employeeInfoQuery = "SELECT count(1), FirstName, LastName FROM Human WHERE (HumanID ='" + newEmployeeID + "')AND(HumanID in (SELECT EmployeeID FROM Employees))";
+            ResultSet results = statement.executeQuery(employeeInfoQuery);
+            while (results.next()){
+                countID=results.getInt(1);
+                newFirstName=results.getString("FirstName");
+                newLastName=results.getString("LastName");
+            }
+            if(countID==0){
+                submitStatusLabel.setText("Nie ma pracownika o takim ID!");
+            }
+            else{
+
+                submitStatusLabel.setText("Od teraz pracownik obsługujący to zamówienie to "+newFirstName+" "+newLastName);
+            }
+
+            employeeFirstNameTextField.setText(newFirstName);
+            employeeLastNameTextField.setText(newLastName);
+        }
+    }
+
+    public void onCarIDChanged(ActionEvent event) throws SQLException
+    {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        Statement statement = connectDB.createStatement();
+        String newCarName="",newCarTypeName="", newCarManufacturer="",newCarColor="";
+        int countID=0;
+        Integer newCarID=Integer.parseInt(carIDTextField.getText()), newCarEnginePower=0;
+        Float newCarPricePerDay= 0.0F;
+
+        if(newCarID>0)
+        {
+            String carIDInfoQuery="SELECT count(1) FROM ClientView WHERE CarID="+newCarID;
+                ResultSet resultsID = statement.executeQuery(carIDInfoQuery);
+                while (resultsID.next()) {
+                    countID = resultsID.getInt(1);
+                }
+            if(countID==0){
+                submitStatusLabel.setText("Nie ma samochodu o takim ID!");
+            }
+            else{
+                String carInfoQuery="SELECT* FROM ClientView WHERE CarID="+newCarID;
+                ResultSet results = statement.executeQuery(carInfoQuery);
+                while (results.next()) {
+                    countID = results.getInt(1);
+                    newCarName = results.getString("CarModelName");
+                    newCarTypeName = results.getString("CarTypeName");
+                    newCarManufacturer = results.getString("ManufacturerName");
+                    newCarColor = results.getString("Color");
+                    newCarEnginePower = results.getInt("EnginePower");
+                    newCarPricePerDay = results.getFloat("DailyLendingPrice");
+                }
+                submitStatusLabel.setText("Zmieniono samochód z "+impCarID+"(ID) na "+newCarID+"(ID)");
+
+                carNameTextField.setText(newCarName);
+                carManufacturerTextField.setText(newCarManufacturer);
+                carTypeTextField.setText(newCarTypeName);
+                carColorTextField.setText(newCarColor);
+                carEnginePowerTextField.setText(newCarEnginePower.toString());
+                carPricePerDayTextField.setText(newCarPricePerDay.toString());
+
+                recalculateFullPrice();
+            }
+        }
+    }
+
+    public void onStartDateChanged(ActionEvent event)
+    {
+
+        if(endDatePicker.getValue().isBefore(startDatePicker.getValue().plusDays(5))) endDatePicker.setValue(startDatePicker.getValue().plusDays(5));
+
+        recalculateFullPrice();
+    }
+
+    public void onEndDateChanged(ActionEvent event)
+    {
+
+        if(endDatePicker.getValue().isBefore(startDatePicker.getValue().minusDays(5))) startDatePicker.setValue(endDatePicker.getValue().minusDays(5));
+
+        recalculateFullPrice();
+    }
+
     public void submitButtonOnAction(ActionEvent event) throws SQLException {
         String orderStatusAfter="";
         if(reservationRadioButton.isSelected()) orderStatusAfter="Reservation";
@@ -165,12 +277,58 @@ public class EmployeeOrderDetailsController {
 
         statement.executeQuery(updateOrder);
 
+        String tempStartDate=startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String tempEndDate=endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        if(!impStartDate.equals(tempStartDate)||!impEndDate.equals(tempEndDate)) orderDateUpdated=true;
+        if(!carIDTextField.getText().equals(impCarID.toString())) orderCarUpdated=true;
+
+
+        if(orderDateUpdated){
+            //zapytanie aktualizujące datę wypożyczenia w zamówieniu
+            String updateOrderDate="UPDATE Orders SET StartDate='"+tempStartDate+"', EndDate='"+tempEndDate+"', FullLendingPrice="+fullPriceTextField.getText()+" WHERE OrderID="+impOrderID;
+            statement.executeQuery(updateOrderDate);
+        }
+
+        if(orderCarUpdated){
+            //zapytanie aktualizujące samochód w wypożyczeniu
+            String updateOrderCar="UPDATE Orders SET CarID="+carIDTextField.getText()+", FullLendingPrice="+fullPriceTextField.getText()+" WHERE OrderID="+impOrderID;
+            statement.executeQuery(updateOrderCar);
+        }
+
         Stage stage = (Stage) submitChanges.getScene().getWindow();
         stage.close();
 
     }
 
 
+
+    public void setDeleteOrderButtonOnAction(ActionEvent event) throws SQLException {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        Statement statement = connectDB.createStatement();
+
+        String deleteQuery="DELETE FROM Orders WHERE OrderID="+impOrderID;
+
+
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteAlert.setTitle("You are deleting order!");
+        deleteAlert.setContentText("Please confirm that you want to delete order!");
+
+
+        Optional<ButtonType>resultOfConfirmation=deleteAlert.showAndWait();
+        if(resultOfConfirmation.get()==ButtonType.OK){
+            //System.out.println(deleteQuery);
+            statement.executeQuery(deleteQuery);
+            Stage stage = (Stage) deleteOrderButton.getScene().getWindow();
+            stage.close();
+        }
+        else{
+            System.out.println("No delete! :)");
+        }
+
+
+    }
 
 
     public void exitButtonOnAction(ActionEvent event){
