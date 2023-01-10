@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 public class EmployeeOrderDetailsController {
 
@@ -36,6 +37,7 @@ public class EmployeeOrderDetailsController {
     public RadioButton finishedRadioButton;
 
     public Button exitButton;
+    public Button deleteOrderButton;
     public Label orderDetailsWindowHeaderLabel;
     public DatePicker startDatePicker;
     public DatePicker endDatePicker;
@@ -170,7 +172,31 @@ public class EmployeeOrderDetailsController {
 
     }
 
+    public void setDeleteOrderButtonOnAction(ActionEvent event) throws SQLException {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        Statement statement = connectDB.createStatement();
 
+        String deleteQuery="DELETE FROM Orders WHERE OrderID="+impOrderID;
+
+
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        deleteAlert.setTitle("You are deleting order!");
+        deleteAlert.setContentText("Please confirm that you want to delete order!");
+
+        Optional<ButtonType>resultOfConfirmation=deleteAlert.showAndWait();
+        if(resultOfConfirmation.get()==ButtonType.OK){
+            //System.out.println(deleteQuery);
+            statement.executeQuery(deleteQuery);
+            Stage stage = (Stage) deleteOrderButton.getScene().getWindow();
+            stage.close();
+        }
+        else{
+            System.out.println("No delete! :)");
+        }
+
+
+    }
 
 
     public void exitButtonOnAction(ActionEvent event){
