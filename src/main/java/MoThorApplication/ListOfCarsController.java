@@ -36,6 +36,8 @@ public class ListOfCarsController implements Initializable {
     @FXML
     private Button exitButton;
     @FXML
+    private Button logoutButton;
+    @FXML
     private TableView<ClientCarListModel> carListModelTableView;
     @FXML
     private TableColumn<ClientCarListModel,Integer>carIDTableColumn;
@@ -291,6 +293,23 @@ public class ListOfCarsController implements Initializable {
     public void exitButtonOnAction(ActionEvent event){
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
+    }
+
+    public void logoutButtonOnAction(ActionEvent event){
+        try{
+            Stage stage = (Stage) exitButton.getScene().getWindow();
+            stage.close();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("loginWindow.fxml")));
+            Stage registerStage = new Stage();
+
+            registerStage.initStyle(StageStyle.UNDECORATED);
+            registerStage.setScene(new Scene(root, 750, 450));
+            registerStage.show();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            e.getCause();
+        }
     }
 
 

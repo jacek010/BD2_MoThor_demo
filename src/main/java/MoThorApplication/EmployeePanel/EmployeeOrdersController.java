@@ -1,8 +1,10 @@
 package MoThorApplication.EmployeePanel;
 
 import MoThorApplication.DatabaseConnection;
+import MoThorApplication.EmployeeWindowHelper;
 import MoThorApplication.ListOfCarsController;
 import MoThorApplication.Models.EmployeeOrdersViewModel;
+import MoThorApplication.PrimaryApplication;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -28,6 +30,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +62,11 @@ public class EmployeeOrdersController implements Initializable {
     @FXML
         private Button exitButton;
     @FXML
+        private Button logoutButton;
+    @FXML
         private TextField keywordsOrdersTextField;
+    @FXML
+        private Label loggedAsLabel;
 
 
     EmployeeOrdersViewModel orderRecord;
@@ -68,6 +75,7 @@ public class EmployeeOrdersController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getData();
+        EmployeeWindowHelper.setEmployeeLoggedAsLabel(loggedAsLabel);
     }
 
 
@@ -203,8 +211,11 @@ public class EmployeeOrdersController implements Initializable {
 
 
     public void exitButtonOnAction(ActionEvent actionEvent) {
-        Stage stage = (Stage) exitButton.getScene().getWindow();
-        stage.close();
+        EmployeeWindowHelper.exit(exitButton);
+    }
+
+    public void logoutButtonOnAction(ActionEvent event){
+        EmployeeWindowHelper.logout(logoutButton);
     }
 
 }

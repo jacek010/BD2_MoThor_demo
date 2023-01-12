@@ -2,12 +2,9 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="MoThorApplication.EmployeePanel.EmployeeClientsController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.EmployeePanel.EmployeeClientsController">
 
     <children>
         <TableView fx:id="clientsListModelTableView" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
@@ -33,5 +30,15 @@
             </font>
         </Label>
         <TextField fx:id="keywordsClientsTextField" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Keywords..." />
+      <Button fx:id="logoutButton" layoutX="672.0" layoutY="46.0" mnemonicParsing="false" onAction="#logoutButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Logout" textFill="WHITE">
+         <font>
+            <Font name="Segoe UI Black" size="12.0" />
+         </font>
+      </Button>
+        <Label fx:id="loggedAsLabel" layoutX="327.0" layoutY="18.0" prefHeight="17.0" prefWidth="322.0" text="You are logged as: ">
+         <font>
+            <Font name="Segoe UI Black" size="12.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

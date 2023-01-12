@@ -2,11 +2,9 @@ package MoThorApplication.EmployeePanel;
 
 import MoThorApplication.DatabaseConnection;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +16,7 @@ import java.util.Optional;
 
 public class EmployeeOrderDetailsController {
 
+    public Label loggedAsLabel;
     public TextField clientIDTextField;
     public TextField employeeIDTextField;
     public TextField clientFirstNameTextField;
