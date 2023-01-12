@@ -59,14 +59,10 @@ public class EmployeeOrdersController implements Initializable {
         private TableColumn<EmployeeOrdersViewModel, String> detailsTableColumn;
 
 
-    @FXML
-        private Button exitButton;
-    @FXML
-        private Button logoutButton;
+
     @FXML
         private TextField keywordsOrdersTextField;
-    @FXML
-        private Label loggedAsLabel;
+
 
 
     EmployeeOrdersViewModel orderRecord;
@@ -75,7 +71,7 @@ public class EmployeeOrdersController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         getData();
-        EmployeeWindowHelper.setEmployeeLoggedAsLabel(loggedAsLabel);
+
     }
 
 
@@ -207,15 +203,6 @@ public class EmployeeOrdersController implements Initializable {
         }
 
 
-    }
-
-
-    public void exitButtonOnAction(ActionEvent actionEvent) {
-        EmployeeWindowHelper.exit(exitButton);
-    }
-
-    public void logoutButtonOnAction(ActionEvent event){
-        EmployeeWindowHelper.logout(logoutButton);
     }
 
 }

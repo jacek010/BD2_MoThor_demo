@@ -1,6 +1,8 @@
 package MoThorApplication.EmployeePanel;
 
-import MoThorApplication.*;
+import MoThorApplication.DatabaseConnection;
+import MoThorApplication.ListOfCarsController;
+import MoThorApplication.MakeAReservationController;
 import MoThorApplication.Models.EmployeeClientListModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +29,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,10 +36,6 @@ import java.util.logging.Logger;
 public class EmployeeClientsController implements Initializable {
     @FXML
     private Button exitButton;
-    @FXML
-        private Button logoutButton;
-    @FXML
-        private Label loggedAsLabel;
     @FXML
     private TableView<EmployeeClientListModel> clientsListModelTableView;
     @FXML
@@ -72,7 +69,6 @@ public class EmployeeClientsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resource){
-        EmployeeWindowHelper.setEmployeeLoggedAsLabel(loggedAsLabel);
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
         showOrderButtons=false;
@@ -164,7 +160,7 @@ public class EmployeeClientsController implements Initializable {
                         } else {
 
                             //FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.CAR);
-                            Button editButton = new Button("Edit");
+                            Button editButton = new Button("Orders");
                             editButton.setStyle("-fx-background-color: #1aa3ff;" +
                                     "");
                             //editButton.setDisable(!showOrderButtons);
@@ -237,10 +233,7 @@ public class EmployeeClientsController implements Initializable {
     }
 
     public void exitButtonOnAction(ActionEvent ignoredEvent){
-        EmployeeWindowHelper.exit(exitButton);
-    }
-
-    public void logoutButtonOnAction(ActionEvent event){
-        EmployeeWindowHelper.logout(logoutButton);
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
     }
 }
