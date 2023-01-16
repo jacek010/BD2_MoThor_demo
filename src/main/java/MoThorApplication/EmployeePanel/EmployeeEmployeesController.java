@@ -50,7 +50,11 @@ public class EmployeeEmployeesController implements Initializable {
     @FXML
     private TableColumn<EmployeeEmployeesListModel, String> employeeEmailAddressTableColumn;
     @FXML
-    private TableColumn<EmployeeEmployeesListModel, String> employeePromoteTableColumn;
+    private TableColumn<EmployeeEmployeesListModel, String> employeeJobNameTableColumn;
+    @FXML
+    private TableColumn<EmployeeEmployeesListModel, Integer> employeeLentCarsTableColumn;
+    @FXML
+    private TableColumn<EmployeeEmployeesListModel, String> employeeEditTableColumn;
     @FXML
     private TextField keywordsEmployeesTextField;
 
@@ -69,7 +73,7 @@ public class EmployeeEmployeesController implements Initializable {
             System.out.println("Access denied on Employees Tab - not a manager.");
             return;
         }
-        String employeeViewQuery="SELECT * FROM EmployeesDetailsView WHERE JobName != 'Manager' AND JobName != 'Administrator'";
+        String employeeViewQuery="SELECT * FROM EmployeesDetailsView";
 
         showEmployeeView(connectDB, employeeViewQuery);
     }
@@ -109,6 +113,9 @@ public class EmployeeEmployeesController implements Initializable {
             employeeLastNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("employeeLastName"));
             employeePhoneNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("employeePhoneNumber"));
             employeeEmailAddressTableColumn.setCellValueFactory(new PropertyValueFactory<>("employeeEmailAddress"));
+            employeeJobNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("JobName"));
+            employeeLentCarsTableColumn.setCellValueFactory(new PropertyValueFactory<>("LentCars"));
+
 
             //add cell of button edit
 
@@ -127,7 +134,8 @@ public class EmployeeEmployeesController implements Initializable {
                 else if (employeesListModel.getEmployeeFirstName().toLowerCase().contains(searchKeyword)) return true;
                 else if (employeesListModel.getEmployeeLastName().toLowerCase().contains(searchKeyword)) return true;
                 else if (employeesListModel.getEmployeePhoneNumber().toLowerCase().contains(searchKeyword)) return true;
-                else if (employeesListModel.getEmployeeEmailAddress().toLowerCase().contains(searchKeyword)) return true;
+                else if (employeesListModel.getJobName().toLowerCase().contains(searchKeyword)) return true;
+                else if (employeesListModel.getLentCars().toString().contains(searchKeyword)) return true;
                 else return false;
 
             }));
@@ -154,15 +162,12 @@ public class EmployeeEmployeesController implements Initializable {
                         }
                         else
                         {
-                            Button editButton = new Button("Promote");
+                            Button editButton = new Button("Edit");
                             editButton.setStyle("-fx-background-color: #1aa3ff;" + "");
 
                             editButton.setOnAction(event ->
                             {
-                                //promocja pracownika do managera
-                                TableRow row = getTableRow();
-                                EmployeeEmployeesListModel employee = (EmployeeEmployeesListModel) row.getItem();
-                                promoteEmployee(employee.getEmployeeID(), connectDB);
+
                             });
                             HBox manageBtn = new HBox(editButton);
                             manageBtn.setStyle("-fx-alignment:center");
@@ -174,7 +179,7 @@ public class EmployeeEmployeesController implements Initializable {
                 };
             };
 
-            employeePromoteTableColumn.setCellFactory(cellFactory);
+            employeeEditTableColumn.setCellFactory(cellFactory);
             employeesListModelTableView.setItems(sortedData);
 
 
@@ -182,24 +187,7 @@ public class EmployeeEmployeesController implements Initializable {
             Logger.getLogger(ListOfCarsController.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
         }
-
-
     }
-
-    public void promoteEmployee(int EmployeeID, Connection connectDB)
-    {
-        String promoteEmployee = "UPDATE Employees SET JobID = 4 WHERE EmployeeID ="+EmployeeID+"";
-        try
-        {
-            Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(promoteEmployee);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
 }
 
 

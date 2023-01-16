@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.EmployeePanel.EmployeeEmployeesController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.EmployeePanel.EmployeeEmployeesController">
     <children>
 
         <TableView fx:id="employeesListModelTableView" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
             <columns>
                 <TableColumn fx:id="employeeIDTableColumn" text="Employee ID" />
                 <TableColumn fx:id="employeeFirstNameTableColumn" prefWidth="99.0" text="First Name" />
-                <TableColumn fx:id="employeeLastNameTableColumn" prefWidth="132.0" text="Last Name" />
-                <TableColumn fx:id="employeePhoneNumberTableColumn" prefWidth="158.0" text="Phone Number" />
-                <TableColumn fx:id="employeeEmailAddressTableColumn" prefWidth="171.0" text="Email Address" />
-                <TableColumn fx:id="employeePromoteTableColumn" prefWidth="90.0" text="Promote" />
+                <TableColumn fx:id="employeeLastNameTableColumn" prefWidth="101.0" text="Last Name" />
+                <TableColumn fx:id="employeePhoneNumberTableColumn" prefWidth="132.0" text="Phone Number" />
+                <TableColumn fx:id="employeeEmailAddressTableColumn" prefWidth="95.0" text="Email Address" />
+                <TableColumn fx:id="employeeJobNameTableColumn" prefWidth="95.0" text="Job Name" />
+                <TableColumn fx:id="employeeLentCarsTableColumn" text="Lent Cars" />
+                <TableColumn fx:id="employeeEditTableColumn" prefWidth="43.0" text="Edit" />
             </columns>
         </TableView>
         <Label alignment="CENTER" layoutX="30.0" layoutY="18.0" prefHeight="17.0" prefWidth="47.0" text="Search">
