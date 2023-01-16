@@ -120,8 +120,15 @@ public class ChangeClientInformationController {
     public boolean checkChanges()//zwraca prawdę, były zmiany
     {
         if(isLoggedAsEmployee) {
-            return !firstNameTextField.getText().equals(oldFirstName) || !lastNameTextField.getText().equals(oldLastName) || !emailTextField.getText().equals(oldEmailAddress) || !driverLicenseTextField.getText().equals(oldClientDrivingLicense)
-                    || !phoneTextField.getText().equals(oldPhoneNumber) || !secondPhoneTextField.getText().equals(oldSecondPhoneNumber) || !additionalInfoTextArea.getText().equals(oldAdditionalInfo)||!(isVerifiedCheckBox.isSelected()==oldIsVerified);
+            return !firstNameTextField.getText().equals(oldFirstName) ||
+                    !lastNameTextField.getText().equals(oldLastName) ||
+                    !emailTextField.getText().equals(oldEmailAddress) ||
+                    !driverLicenseTextField.getText().equals(oldClientDrivingLicense) ||
+                    !phoneTextField.getText().equals(oldPhoneNumber) ||
+                    !secondPhoneTextField.getText().equals(oldSecondPhoneNumber) ||
+                    additionalInfoTextArea.getText()==null||
+                    !additionalInfoTextArea.getText().equals(oldAdditionalInfo)||
+                    !(isVerifiedCheckBox.isSelected()==oldIsVerified);
         }
         else{
             return !firstNameTextField.getText().equals(oldFirstName) || !lastNameTextField.getText().equals(oldLastName) || !emailTextField.getText().equals(oldEmailAddress) || !driverLicenseTextField.getText().equals(oldClientDrivingLicense)
