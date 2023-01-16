@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.EmployeePanel.EmployeeClientsController">
+<AnchorPane onMouseEntered="#showEmployeeView" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.EmployeePanel.EmployeeClientsController">
 
     <children>
         <TableView fx:id="clientsListModelTableView" layoutX="10.0" layoutY="94.0" prefHeight="303.0" prefWidth="731.0">
             <columns>
                 <TableColumn fx:id="clientIDTableColumn" prefWidth="53.0" text="Client ID" />
-                <TableColumn fx:id="clientFirstNameTableColumn" prefWidth="99.0" text="First Name" />
-                <TableColumn fx:id="clientLastNameTableColumn" prefWidth="94.0" text="Last Name" />
-                <TableColumn fx:id="clientDrivingLicenseTableColumn" prefWidth="93.0" text="Driving License" />
-                <TableColumn fx:id="clientPhoneNumberTableColumn" prefWidth="122.0" text="Phone Number" />
-                <TableColumn fx:id="clientEmailAddressTableColumn" prefWidth="99.0" text="Email Address" />
-                <TableColumn fx:id="clientPreviousOrdersTableColumn" prefWidth="101.0" text="Previous Orders" />
-                <TableColumn fx:id="clientViewOrdersTableColumn" prefWidth="69.0" text="Orders" />
+                <TableColumn fx:id="clientFirstNameTableColumn" prefWidth="70.0" text="First Name" />
+                <TableColumn fx:id="clientLastNameTableColumn" prefWidth="85.0" text="Last Name" />
+                <TableColumn fx:id="clientDrivingLicenseTableColumn" prefWidth="105.0" text="Driving License" />
+                <TableColumn fx:id="clientPhoneNumberTableColumn" prefWidth="96.0" text="Phone Number" />
+                <TableColumn fx:id="clientEmailAddressTableColumn" minWidth="0.0" prefWidth="94.0" text="Email Address" />
+                <TableColumn fx:id="clientPreviousOrdersTableColumn" minWidth="0.0" prefWidth="100.0" text="Previous Orders" />
+                <TableColumn fx:id="clientVerifiedStatusTableColumn" minWidth="0.0" prefWidth="72.0" text="Is verified" />
+                <TableColumn fx:id="clientViewOrdersTableColumn" prefWidth="55.0" text="Edit" />
             </columns>
         </TableView>
         <Label alignment="CENTER" layoutX="30.0" layoutY="18.0" prefHeight="17.0" prefWidth="47.0" text="Search">

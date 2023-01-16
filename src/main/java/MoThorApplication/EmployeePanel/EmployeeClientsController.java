@@ -1,8 +1,6 @@
 package MoThorApplication.EmployeePanel;
 
-import MoThorApplication.DatabaseConnection;
-import MoThorApplication.ListOfCarsController;
-import MoThorApplication.MakeAReservationController;
+import MoThorApplication.*;
 import MoThorApplication.Models.EmployeeClientListModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,13 +53,11 @@ public class EmployeeClientsController implements Initializable {
     @FXML
     private TableColumn<EmployeeClientListModel, String> clientViewOrdersTableColumn;
     @FXML
+    private TableColumn<EmployeeClientListModel, Integer> clientVerifiedStatusTableColumn;
+    @FXML
     private TextField keywordsClientsTextField;
 
-    // TODO: wyznaczyc odpowiednie miejsce, do wyswietlania jako kto jest zalogowanym (i jakie pracownicze stanowisko ma) - najlepiej by pasowało po prawej stronie tabów.
-    //@FXML
-    //private Label loggedAsLabel;
-
-    EmployeeClientListModel carRecord;
+    EmployeeClientListModel clientsRecord;
 
     ObservableList<EmployeeClientListModel> employeeClientListModelObservableList = FXCollections.observableArrayList();
 
@@ -74,28 +70,28 @@ public class EmployeeClientsController implements Initializable {
         showOrderButtons=false;
         setEmployeeAccessLevel(connectDB);
 
-        // TODO: to samo co wyżej do lable.
-        //loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
 
-        String clientViewQuery="SELECT * FROM ClientDetailsView";
 
-        showEmployeeView(connectDB, clientViewQuery);
+        showEmployeeView();
     }
 
-    public void showEmployeeView(Connection connectDB,String query)
+    public void showEmployeeView()
     {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
         clientsListModelTableView.setItems(null);
         employeeClientListModelObservableList.clear();
 
+
+        String clientViewQuery="SELECT * FROM ClientDetailsView";
         try {
             Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(query);
+            ResultSet queryResult = statement.executeQuery(clientViewQuery);
 
             System.out.println(queryResult);
 
             while (queryResult.next()) {
-                Integer queryVerified = queryResult.getInt("verified");
-                if(queryVerified == 1) {
+
                     Integer queryClientID = queryResult.getInt("ClientID");
                     String queryClientFirstName = queryResult.getString("ClientFirstName");
                     String queryClientLastName = queryResult.getString("ClientLastName");
@@ -103,9 +99,10 @@ public class EmployeeClientsController implements Initializable {
                     String queryClientPhoneNumber = queryResult.getString("ClientPhoneNUmber");
                     String queryClientEmailAddress = queryResult.getString("ClientEmailAddress");
                     Integer queryPreviousOrders = queryResult.getInt("PreviousOrders");
+                    Integer queryVerified = queryResult.getInt("verified");
                     String queryAdditionalInfo = queryResult.getString("additionalInfo");
                     employeeClientListModelObservableList.add(new EmployeeClientListModel(queryClientID,queryClientFirstName,queryClientLastName,queryClientDrivingLicense,queryClientPhoneNumber,queryClientEmailAddress,queryPreviousOrders,queryVerified,queryAdditionalInfo));
-                }
+
             }
 
             clientIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientID"));
@@ -114,6 +111,7 @@ public class EmployeeClientsController implements Initializable {
             clientDrivingLicenseTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientDrivingLicense"));
             clientPhoneNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientPhoneNumber"));
             clientEmailAddressTableColumn.setCellValueFactory(new PropertyValueFactory<>("clientEmailAddress"));
+            clientVerifiedStatusTableColumn.setCellValueFactory(new PropertyValueFactory<>("verified"));
             clientPreviousOrdersTableColumn.setCellValueFactory(new PropertyValueFactory<>("previousOrders"));
 
             //add cell of button edit
@@ -136,6 +134,7 @@ public class EmployeeClientsController implements Initializable {
                 else if (clientsListModel.getClientPhoneNumber().toLowerCase().contains(searchKeyword)) return true;
                 else if (clientsListModel.getClientEmailAddress().toLowerCase().contains(searchKeyword)) return true;
                 else if (clientsListModel.getPreviousOrders().toString().contains(searchKeyword)) return true;
+                else if (clientsListModel.getVerified().toString().contains(searchKeyword)) return true;
                 else return false;
 
             }));
@@ -160,27 +159,30 @@ public class EmployeeClientsController implements Initializable {
                         } else {
 
                             //FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.CAR);
-                            Button editButton = new Button("Orders");
+                            Button editButton = new Button("Edit");
                             editButton.setStyle("-fx-background-color: #1aa3ff;" +
                                     "");
                             //editButton.setDisable(!showOrderButtons);
 
                             editButton.setOnMouseClicked((MouseEvent event) -> {
                                 clientsListModelTableView.getSelectionModel().select(this.getIndex());
-                                carRecord = clientsListModelTableView.getSelectionModel().getSelectedItem();
+                                clientsRecord = clientsListModelTableView.getSelectionModel().getSelectedItem();
 
                                 FXMLLoader loader = new FXMLLoader();
                                 // Show new form/panel after button click
-                                loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
+                                loader.setLocation(PrimaryApplication.class.getResource("changeClientInformationWindow.fxml"));
                                 try {
                                     loader.load();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
 
-                                MakeAReservationController makeAReservationController = loader.getController();
-                                //makeAReservationController.setFields(carRecord.getCarID(), carRecord.getCarModelName(), carRecord.getManufacturerName(), carRecord.getCarTypeName(),
-                                //        carRecord.getColor(), carRecord.getEnginePower(),carRecord.getDailyLendingPrice(),startDatePicker.getValue(),endDatePicker.getValue());
+                                ChangeClientInformationController changeClientInformationController = loader.getController();
+                                try {
+                                    changeClientInformationController.setFields(clientsRecord.getClientID());
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 Parent parent = loader.getRoot();
                                 Stage stage = new Stage();
                                 stage.setScene(new Scene(parent));
