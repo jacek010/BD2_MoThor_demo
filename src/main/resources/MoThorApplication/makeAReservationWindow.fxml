@@ -6,69 +6,88 @@
 
 <VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.MakeAReservationController">
    <children>
-      <AnchorPane prefHeight="193.0" prefWidth="600.0">
+      <AnchorPane prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #1aa3ff;">
          <children>
-            <TextField fx:id="firstNameTextField" editable="false" layoutX="69.0" layoutY="113.0" promptText="First Name" />
-            <TextField fx:id="lastNameTextField" editable="false" layoutX="391.0" layoutY="113.0" promptText="Last Name" />
-            <DatePicker fx:id="startDateField" disable="true" editable="false" layoutX="56.0" layoutY="164.0" promptText="Start Date" />
-            <DatePicker fx:id="endDateField" disable="true" editable="false" layoutX="377.0" layoutY="164.0" promptText="End Date" />
-            <Label alignment="CENTER" layoutX="218.0" layoutY="176.0" prefHeight="48.0" prefWidth="165.0" text="Selected car">
+            <Label alignment="CENTER" layoutX="14.0" layoutY="-1.0" prefHeight="82.0" prefWidth="162.0" text="MoThor" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="31.0" />
+               </font>
+            </Label>
+            <Label fx:id="clientInformationWindowHeaderLabel" alignment="CENTER" layoutX="190.0" prefHeight="82.0" prefWidth="406.0" text="Order summary" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="49.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <AnchorPane prefHeight="316.0" prefWidth="602.0">
+         <children>
+            <TextField fx:id="firstNameTextField" editable="false" layoutX="61.0" layoutY="27.0" promptText="First Name" />
+            <TextField fx:id="lastNameTextField" editable="false" layoutX="394.0" layoutY="27.0" promptText="Last Name" />
+            <DatePicker fx:id="startDateField" disable="true" editable="false" layoutX="44.0" layoutY="78.0" promptText="Start Date" />
+            <DatePicker fx:id="endDateField" disable="true" editable="false" layoutX="380.0" layoutY="78.0" promptText="End Date" />
+            <Label alignment="CENTER" layoutX="221.0" layoutY="90.0" prefHeight="48.0" prefWidth="165.0" text="Selected car">
                <font>
                   <Font name="Segoe UI Black" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="carID" alignment="CENTER" layoutX="14.0" layoutY="217.0" prefHeight="17.0" prefWidth="50.0" text="carID">
+            <Label fx:id="carID" alignment="CENTER" layoutX="17.0" layoutY="131.0" prefHeight="17.0" prefWidth="50.0" text="carID">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="carName" alignment="CENTER" layoutX="68.0" layoutY="217.0" prefHeight="17.0" prefWidth="64.0" text="carName">
+            <Label fx:id="carName" alignment="CENTER" layoutX="71.0" layoutY="131.0" prefHeight="17.0" prefWidth="64.0" text="carName">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="carManufacturer" alignment="CENTER" layoutX="132.0" layoutY="217.0" prefHeight="17.0" prefWidth="122.0" text="carManufacturer">
+            <Label fx:id="carManufacturer" alignment="CENTER" layoutX="135.0" layoutY="131.0" prefHeight="17.0" prefWidth="122.0" text="carManufacturer">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="carType" alignment="CENTER" layoutX="258.0" layoutY="217.0" prefHeight="17.0" prefWidth="64.0" text="carType">
+            <Label fx:id="carType" alignment="CENTER" layoutX="261.0" layoutY="131.0" prefHeight="17.0" prefWidth="64.0" text="carType">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="carColor" alignment="CENTER" layoutX="326.0" layoutY="217.0" prefHeight="17.0" prefWidth="64.0" text="carColor">
+            <Label fx:id="carColor" alignment="CENTER" layoutX="329.0" layoutY="131.0" prefHeight="17.0" prefWidth="64.0" text="carColor">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="carColor1" alignment="CENTER" layoutX="397.0" layoutY="217.0" prefHeight="17.0" prefWidth="91.0" text="enginePower">
+            <Label fx:id="carColor1" alignment="CENTER" layoutX="400.0" layoutY="131.0" prefHeight="17.0" prefWidth="91.0" text="enginePower">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="pricePerDay" alignment="CENTER" layoutX="494.0" layoutY="217.0" prefHeight="17.0" prefWidth="91.0" text="pricePerDay">
+            <Label fx:id="pricePerDay" alignment="CENTER" layoutX="497.0" layoutY="131.0" prefHeight="17.0" prefWidth="91.0" text="pricePerDay">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </Label>
       
-            <Button fx:id="acceptButton" layoutX="326.0" layoutY="335.0" mnemonicParsing="false" onAction="#acceptButtonOnAction" prefHeight="48.0" prefWidth="248.0" text="acceptButton" />
-            <Button fx:id="cancelButton" layoutX="20.0" layoutY="335.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="48.0" prefWidth="248.0" text="cancelButton" />
+            <Button fx:id="acceptButton" layoutX="329.0" layoutY="249.0" mnemonicParsing="false" onAction="#acceptButtonOnAction" prefHeight="48.0" prefWidth="248.0" style="-fx-background-color: #1aa3ff;" text="Make a reservation" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="16.0" />
+               </font></Button>
+            <Button fx:id="cancelButton" layoutX="23.0" layoutY="249.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="48.0" prefWidth="248.0" style="-fx-background-color: c43e3e;" text="Cancel order" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="16.0" />
+               </font></Button>
       
-            <TextField fx:id="fullCostTextField" alignment="CENTER" editable="false" layoutX="226.0" layoutY="296.0" promptText="fullCost" />
-            <Label alignment="CENTER" layoutX="268.0" layoutY="279.0" prefHeight="17.0" prefWidth="64.0" text="fullCost">
+            <TextField fx:id="fullCostTextField" alignment="CENTER" editable="false" layoutX="229.0" layoutY="210.0" promptText="fullCost" />
+            <Label alignment="CENTER" layoutX="271.0" layoutY="193.0" prefHeight="17.0" prefWidth="64.0" text="fullCost">
                <font>
                   <Font name="Segoe UI Black" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="carIDTextField" alignment="CENTER" editable="false" layoutX="11.0" layoutY="243.0" prefHeight="25.0" prefWidth="57.0" promptText="carID" />
-            <TextField fx:id="carNameTextField" alignment="CENTER" editable="false" layoutX="72.0" layoutY="243.0" prefHeight="25.0" prefWidth="57.0" promptText="carName" />
-            <TextField fx:id="carManufacturerTextField" alignment="CENTER" editable="false" layoutX="143.0" layoutY="243.0" prefHeight="25.0" prefWidth="105.0" promptText="carManufacturer" />
-            <TextField fx:id="carTypeTextField" alignment="CENTER" editable="false" layoutX="258.0" layoutY="243.0" prefHeight="25.0" prefWidth="64.0" promptText="carType" />
-            <TextField fx:id="carColorTextField" alignment="CENTER" editable="false" layoutX="326.0" layoutY="243.0" prefHeight="25.0" prefWidth="64.0" promptText="carColor" />
-            <TextField fx:id="enginePowerTextField" alignment="CENTER" editable="false" layoutX="401.0" layoutY="243.0" prefHeight="25.0" prefWidth="85.0" promptText="enginePower" />
-            <TextField fx:id="pricePerDayTextField" alignment="CENTER" editable="false" layoutX="497.0" layoutY="243.0" prefHeight="25.0" prefWidth="85.0" promptText="pricePerDay" />
+            <TextField fx:id="carIDTextField" alignment="CENTER" editable="false" layoutX="14.0" layoutY="157.0" prefHeight="25.0" prefWidth="57.0" promptText="carID" />
+            <TextField fx:id="carNameTextField" alignment="CENTER" editable="false" layoutX="75.0" layoutY="157.0" prefHeight="25.0" prefWidth="57.0" promptText="carName" />
+            <TextField fx:id="carManufacturerTextField" alignment="CENTER" editable="false" layoutX="146.0" layoutY="157.0" prefHeight="25.0" prefWidth="105.0" promptText="carManufacturer" />
+            <TextField fx:id="carTypeTextField" alignment="CENTER" editable="false" layoutX="261.0" layoutY="157.0" prefHeight="25.0" prefWidth="64.0" promptText="carType" />
+            <TextField fx:id="carColorTextField" alignment="CENTER" editable="false" layoutX="329.0" layoutY="157.0" prefHeight="25.0" prefWidth="64.0" promptText="carColor" />
+            <TextField fx:id="enginePowerTextField" alignment="CENTER" editable="false" layoutX="404.0" layoutY="157.0" prefHeight="25.0" prefWidth="85.0" promptText="enginePower" />
+            <TextField fx:id="pricePerDayTextField" alignment="CENTER" editable="false" layoutX="500.0" layoutY="157.0" prefHeight="25.0" prefWidth="85.0" promptText="pricePerDay" />
          </children>
       </AnchorPane>
    </children>
