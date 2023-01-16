@@ -1,8 +1,6 @@
 package MoThorApplication.EmployeePanel;
 
-import MoThorApplication.DatabaseConnection;
-import MoThorApplication.ListOfCarsController;
-import MoThorApplication.MakeAReservationController;
+import MoThorApplication.*;
 import MoThorApplication.Models.EmployeeClientListModel;
 import MoThorApplication.Models.EmployeeEmployeesListModel;
 import javafx.collections.FXCollections;
@@ -58,6 +56,7 @@ public class EmployeeEmployeesController implements Initializable {
     @FXML
     private TextField keywordsEmployeesTextField;
 
+    EmployeeEmployeesListModel employeesRecord;
     ObservableList<EmployeeEmployeesListModel> employeeEmployeesListModelObservableList = FXCollections.observableArrayList();
 
     boolean showOrderButtons = false;
@@ -73,19 +72,23 @@ public class EmployeeEmployeesController implements Initializable {
             System.out.println("Access denied on Employees Tab - not a manager.");
             return;
         }
-        String employeeViewQuery="SELECT * FROM EmployeesDetailsView";
 
-        showEmployeeView(connectDB, employeeViewQuery);
+        showEmployeeView();
     }
 
-    public void showEmployeeView(Connection connectDB,String query)
+    public void showEmployeeView()
     {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
         employeesListModelTableView.setItems(null);
         employeeEmployeesListModelObservableList.clear();
 
+
+        String employeeViewQuery="SELECT * FROM EmployeesDetailsView";
+
         try {
             Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(query);
+            ResultSet queryResult = statement.executeQuery(employeeViewQuery);
 
             System.out.println(queryResult);
 
@@ -167,6 +170,29 @@ public class EmployeeEmployeesController implements Initializable {
 
                             editButton.setOnAction(event ->
                             {
+                                employeesListModelTableView.getSelectionModel().select(this.getIndex());
+                                employeesRecord = employeesListModelTableView.getSelectionModel().getSelectedItem();
+
+                                FXMLLoader loader = new FXMLLoader();
+                                // Show new form/panel after button click
+                                loader.setLocation(PrimaryApplication.class.getResource("changeEmployeeInformationWindow.fxml"));
+                                try {
+                                    loader.load();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+
+                                ChangeEmployeeInformationController changeEmployeeInformationController = loader.getController();
+                                try {
+                                    changeEmployeeInformationController.setFields(employeesRecord.getEmployeeID());
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                Parent parent = loader.getRoot();
+                                Stage stage = new Stage();
+                                stage.setScene(new Scene(parent));
+                                stage.initStyle(StageStyle.UTILITY);
+                                stage.show();
 
                             });
                             HBox manageBtn = new HBox(editButton);

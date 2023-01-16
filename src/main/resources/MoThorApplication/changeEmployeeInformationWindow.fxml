@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.ChangeEmployeeInformationController">
+   <children>
+      <AnchorPane prefHeight="82.0" prefWidth="600.0" style="-fx-background-color: #1aa3ff;">
+         <children>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="-1.0" prefHeight="82.0" prefWidth="162.0" text="MoThor" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="31.0" />
+               </font>
+            </Label>
+            <Line endX="-115.0" endY="-33.0" layoutX="300.0" layoutY="41.0" startX="-115.0" startY="31.0" stroke="WHITE" strokeLineCap="ROUND" strokeWidth="3.0" />
+            <Label fx:id="employeeInformationWindowHeaderLabel" alignment="CENTER" layoutX="196.0" layoutY="-1.0" prefHeight="82.0" prefWidth="406.0" text="Employee Account Information" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="21.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <AnchorPane prefHeight="318.0" prefWidth="600.0" style="-fx-background-color: #e6f5ff;">
+         <children>
+            <TextField fx:id="firstNameTextField" alignment="CENTER" layoutX="26.0" layoutY="18.0" prefHeight="25.0" prefWidth="262.0" promptText="First Name" style="-fx-border-color: red;" />
+            <TextField fx:id="lastNameTextField" alignment="CENTER" layoutX="312.0" layoutY="18.0" prefHeight="25.0" prefWidth="262.0" promptText="Last Name" style="-fx-border-color: red;" />
+            <TextField fx:id="emailTextField" alignment="CENTER" layoutX="26.0" layoutY="51.0" prefHeight="25.0" prefWidth="262.0" promptText="Email address" />
+            <TextField fx:id="phoneTextField" alignment="CENTER" layoutX="312.0" layoutY="51.0" prefHeight="25.0" prefWidth="262.0" promptText="Phone number" style="-fx-border-color: red;" />
+            <TextField fx:id="secondPhoneTextField" alignment="CENTER" layoutX="312.0" layoutY="86.0" prefHeight="25.0" prefWidth="262.0" promptText="Second phone number" />
+            <Button fx:id="submitChanges" layoutX="26.0" layoutY="240.0" mnemonicParsing="false" onAction="#submitChangesButtonOnAction" prefHeight="25.0" prefWidth="548.0" style="-fx-background-color: #1aa3ff;" text="Submit changes" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font></Button>
+            <Button fx:id="exitButton" layoutX="26.0" layoutY="279.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="25.0" prefWidth="548.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font>
+            </Button>
+            <Label fx:id="submitStatusLabel" alignment="CENTER" layoutX="27.0" layoutY="1.0" prefHeight="17.0" prefWidth="548.0" textFill="#1aa3ff">
+               <font>
+                  <Font name="Segoe UI Black" size="12.0" />
+               </font></Label>
+            <AnchorPane fx:id="employeeOptionsPane" layoutX="28.0" layoutY="125.0" prefHeight="105.0" prefWidth="548.0">
+               <children>
+                  <TextArea fx:id="additionalInfoTextArea" layoutX="36.0" layoutY="7.0" prefHeight="67.0" prefWidth="476.0" promptText="Additional info" />
+               </children>
+            </AnchorPane>
+            <ComboBox fx:id="jobNameComboBox" editable="true" layoutX="28.0" layoutY="86.0" prefHeight="25.0" prefWidth="262.0" promptText="Job Name" />
+
+
+         </children></AnchorPane>
+   </children>
+</VBox>
