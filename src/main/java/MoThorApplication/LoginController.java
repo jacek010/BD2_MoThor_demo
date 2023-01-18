@@ -86,6 +86,7 @@ public class LoginController {
                          openClientView();
                      }
                      else if(userType.equals("EMPLOYEE")) {
+                         DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.EMPLOYEE;
                          openEmployeeView();
                      }
                  }
@@ -102,7 +103,6 @@ public class LoginController {
 
     public void openClientView(){
         try{
-
             closeCurrentStage();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("listOfCars.fxml")));
             Stage registerStage = new Stage();

@@ -52,7 +52,7 @@
           </Tab>
             <Tab text="Cars">
                <content>
-                  <fx:include source="employeeCarsPanel.fxml" />
+                  <fx:include source="../listOfCars.fxml" />
                </content>
             </Tab>
             <Tab fx:id="employeesTab" text="Employees">

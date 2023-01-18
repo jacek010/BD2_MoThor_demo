@@ -18,6 +18,8 @@ public class EmployeeWindowHelper {
             Stage stage = (Stage) button.getScene().getWindow();
             stage.close();
 
+            DatabaseConnection.accessLevel = null;
+
             Parent root = FXMLLoader.load(Objects.requireNonNull(PrimaryApplication.class.getResource("loginWindow.fxml")));
             Stage registerStage = new Stage();
 

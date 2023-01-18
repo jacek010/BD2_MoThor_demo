@@ -4,18 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.ListOfCarsController">
+<Pane onMouseEntered="#refresh" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MoThorApplication.ListOfCarsController">
    <children>
       <TableView fx:id="carListModelTableView" layoutX="10.0" layoutY="127.0" prefHeight="303.0" prefWidth="731.0">
         <columns>
-            <TableColumn fx:id="carIDTableColumn" prefWidth="49.0" text="Car ID" />
-          <TableColumn fx:id="carModelTableColumn" prefWidth="130.0" text="Car Model" />
-          <TableColumn fx:id="manufacturerTableColumn" prefWidth="132.0" text="Manufacturer" />
-            <TableColumn fx:id="carTypeTableColumn" prefWidth="78.0" text="Car Type" />
-            <TableColumn fx:id="colorTableColumn" prefWidth="60.0" text="Color" />
-            <TableColumn fx:id="enginePowerTableColumn" prefWidth="100.0" text="Engine Power" />
-            <TableColumn fx:id="costPerDayTableColumn" prefWidth="100.0" text="Cost per day" />
-            <TableColumn fx:id="reservationTableColumn" prefWidth="75.0" text="Order" />
+            <TableColumn fx:id="carIDTableColumn" prefWidth="39.0" text="Car ID" />
+            <TableColumn fx:id="carModelTableColumn" prefWidth="70.0" text="Car Model" />
+            <TableColumn fx:id="manufacturerTableColumn" prefWidth="88.0" text="Manufacturer" />
+            <TableColumn fx:id="carTypeTableColumn" prefWidth="87.0" text="Car Type" />
+            <TableColumn fx:id="colorTableColumn" prefWidth="73.0" text="Color" />
+            <TableColumn fx:id="enginePowerTableColumn" prefWidth="91.0" text="Engine Power" />
+            <TableColumn fx:id="costPerDayTableColumn" prefWidth="89.0" text="Cost per day" />
+            <TableColumn fx:id="maintanceTableColumn" prefWidth="83.0" text="Maintance" />
+            <TableColumn fx:id="reservationTableColumn" prefWidth="64.0" text="Order" />
         </columns>
       </TableView>
        <Button fx:id="exitButton" layoutX="672.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #1aa3ff;" text="Exit" textFill="WHITE">
@@ -29,13 +30,13 @@
       </Label>
       <TextField fx:id="keywordsTextField" layoutX="84.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" promptText="Keywords..." />
       <DatePicker fx:id="startDatePicker" layoutX="84.0" layoutY="48.0" promptText="Select start date" />
-      <Label alignment="CENTER" layoutX="10.0" layoutY="52.0" prefHeight="17.0" prefWidth="74.0" text="Start Date">
+      <Label fx:id="startDateLabel" alignment="CENTER" layoutX="10.0" layoutY="52.0" prefHeight="17.0" prefWidth="74.0" text="Start Date">
          <font>
             <Font name="Segoe UI Black" size="12.0" />
          </font>
       </Label>
       <DatePicker fx:id="endDatePicker" layoutX="84.0" layoutY="86.0" promptText="Select end date" />
-      <Label alignment="CENTER" layoutX="10.0" layoutY="90.0" prefHeight="17.0" prefWidth="74.0" text="End Date">
+      <Label fx:id="endDateLabel" alignment="CENTER" layoutX="10.0" layoutY="90.0" prefHeight="17.0" prefWidth="74.0" text="End Date">
          <font>
             <Font name="Segoe UI Black" size="12.0" />
          </font>

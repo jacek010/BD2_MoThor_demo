@@ -1,8 +1,6 @@
 package MoThorApplication.Models;
 
-import javafx.scene.control.Button;
-
-public class ClientCarListModel {
+public class EmployeeCarListModel{
     Integer carID;
     String carModelName;
     String manufacturerName;
@@ -14,17 +12,7 @@ public class ClientCarListModel {
     Integer active;
     String additionalInfo;
 
-    public ClientCarListModel(Integer carID, String carModelName, String manufacturerName, String carTypeName, String color, Integer enginePower, Float dailyLendingPrice) {
-        this.carID=carID;
-        this.carModelName = carModelName;
-        this.manufacturerName = manufacturerName;
-        this.carTypeName = carTypeName;
-        this.color = color;
-        this.enginePower = enginePower;
-        this.dailyLendingPrice = dailyLendingPrice;
-    }
-
-    public ClientCarListModel(Integer carID, String carModelName, String manufacturerName, String carTypeName, String color, Integer enginePower, Float dailyLendingPrice, Integer maintance, Integer active, String additionalInfo) {
+    public EmployeeCarListModel(Integer carID, String carModelName, String manufacturerName, String carTypeName, String color, Integer enginePower, Float dailyLendingPrice, Integer maintance, Integer active, String additionalInfo) {
         this.carID=carID;
         this.carModelName = carModelName;
         this.manufacturerName = manufacturerName;
@@ -93,7 +81,6 @@ public class ClientCarListModel {
         this.dailyLendingPrice = dailyLendingPrice;
     }
 
-
     public Integer getMaintance() {
         return maintance;
     }
@@ -110,11 +97,4 @@ public class ClientCarListModel {
         this.active = active;
     }
 
-    public String getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
-    }
 }
