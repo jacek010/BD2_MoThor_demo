@@ -69,9 +69,6 @@ public class EmployeeClientsController implements Initializable {
         Connection connectDB = connectNow.getConnection();
         showOrderButtons=false;
         setEmployeeAccessLevel(connectDB);
-
-
-
         showEmployeeView();
     }
 
@@ -88,7 +85,7 @@ public class EmployeeClientsController implements Initializable {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(clientViewQuery);
 
-            System.out.println(queryResult);
+            System.out.println(queryResult + "HERE");
 
             while (queryResult.next()) {
 
@@ -212,8 +209,6 @@ public class EmployeeClientsController implements Initializable {
             Logger.getLogger(ListOfCarsController.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
         }
-
-
     }
 
     public void setEmployeeAccessLevel(Connection connectDB)

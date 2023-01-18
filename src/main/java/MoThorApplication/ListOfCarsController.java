@@ -1,6 +1,8 @@
 package MoThorApplication;
 
+import MoThorApplication.EmployeePanel.EmployeeCarsController;
 import MoThorApplication.Models.ClientCarListModel;
+import MoThorApplication.Models.EmployeeCarListModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -54,6 +56,11 @@ public class ListOfCarsController implements Initializable {
     @FXML
     private TableColumn<ClientCarListModel, Float> costPerDayTableColumn;
     @FXML
+    private TableColumn<ClientCarListModel, Integer> maintanceTableColumn;
+    @FXML
+    private TableColumn<ClientCarListModel, Integer> activeTableColumn;
+
+    @FXML
     private TableColumn<ClientCarListModel, String> reservationTableColumn;
     @FXML
     private TextField keywordsTextField;
@@ -65,54 +72,94 @@ public class ListOfCarsController implements Initializable {
     private Label loggedAsLabel;
     @FXML
     private Button changeClientInformationButton;
+    @FXML
+    private Label startDateLabel;
+    @FXML
+    private Label endDateLabel;
+    @FXML
+    private Button showClientOrdersButton;
 
     ClientCarListModel carRecord;
+    EmployeeCarListModel carEmployeeRecord;
 
     ObservableList<ClientCarListModel> clientCarListModelObservableList = FXCollections.observableArrayList();
+    ObservableList<EmployeeCarListModel> employeeCarListModelObservableList = FXCollections.observableArrayList();
 
     boolean showOrderButtons = false;
+    String buttonText;
+    int eval;
 
     @Override
     public void initialize(URL url, ResourceBundle resource){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
-        showOrderButtons=false;
-        setClientAccessLevel(connectDB);
-
-        loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
 
         String clientViewQuery="SELECT * FROM ClientView";
 
+        if(DatabaseConnection.accessLevel == DatabaseConnection.AccessLevelEnum.EMPLOYEE || DatabaseConnection.accessLevel == DatabaseConnection.AccessLevelEnum.MANAGER){
+            eval = 1;
+            setEmployeeAccessLevel(connectDB);
+            startDatePicker.setVisible(false);
+            endDatePicker.setVisible(false);
+            changeClientInformationButton.setVisible(false);
+            exitButton.setVisible(false);
+            logoutButton.setVisible(false);
+            loggedAsLabel.setVisible(false);
+            startDateLabel.setVisible(false);
+            endDateLabel.setVisible(false);
+            showClientOrdersButton.setVisible(false);
+            carListModelTableView.setLayoutY(94);
+            showOrderButtons=true;
+            buttonText = "Edit";
+        }
+        else if(DatabaseConnection.accessLevel == DatabaseConnection.AccessLevelEnum.UNVERIFIED || DatabaseConnection.accessLevel == DatabaseConnection.AccessLevelEnum.VERIFIED || DatabaseConnection.accessLevel == null) {
+            eval = 2;
+            showOrderButtons=false;
+            startDatePicker.setVisible(true);
+            endDatePicker.setVisible(true);
+            maintanceTableColumn.setVisible(false);
+            //activeTableColumn.setVisible(false);
+            setClientAccessLevel(connectDB);
+            loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
+            startDatePicker.valueProperty().addListener((observable, oldValue, newValue)->{
+                if(endDatePicker.getValue()==null) endDatePicker.setValue(newValue.plusDays(5));
+                else if(endDatePicker.getValue().isBefore(newValue.plusDays(5))) endDatePicker.setValue(newValue.plusDays(5));
+                String startDate = startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
+                showCarList(connectDB, clientViewQuery2);
+
+                if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
+            });
+            endDatePicker.valueProperty().addListener((observable, oldValue, newValue)->{
+                if(startDatePicker.getValue()==null)startDatePicker.setValue(newValue.minusDays(5));
+                else if(newValue.isBefore(startDatePicker.getValue().plusDays(5))) startDatePicker.setValue(newValue.minusDays(5));
+                String startDate = startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
+                showCarList(connectDB, clientViewQuery2);
+
+                if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
+            });
+            buttonText = "Order";
+        }
         showCarList(connectDB, clientViewQuery);
+    }
 
-        startDatePicker.valueProperty().addListener((observable, oldValue, newValue)->{
-            if(endDatePicker.getValue()==null) endDatePicker.setValue(newValue.plusDays(5));
-            else if(endDatePicker.getValue().isBefore(newValue.plusDays(5))) endDatePicker.setValue(newValue.plusDays(5));
-            String startDate = startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
-            showCarList(connectDB, clientViewQuery2);
+    public void refresh() {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
 
-            if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
-        });
-        endDatePicker.valueProperty().addListener((observable, oldValue, newValue)->{
-            if(startDatePicker.getValue()==null)startDatePicker.setValue(newValue.minusDays(5));
-            else if(newValue.isBefore(startDatePicker.getValue().plusDays(5))) startDatePicker.setValue(newValue.minusDays(5));
-            String startDate = startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
-            showCarList(connectDB, clientViewQuery2);
-
-            if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
-        });
-
+        String clientViewQuery="SELECT * FROM ClientView";
+        showCarList(connectDB,clientViewQuery);
     }
 
     public void showCarList(Connection connectDB,String query)
     {
         carListModelTableView.setItems(null);
         clientCarListModelObservableList.clear();
-        //System.out.println(query);
+
+        query ="SELECT * FROM ClientView";
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(query);
@@ -125,9 +172,16 @@ public class ListOfCarsController implements Initializable {
                 String queryColor = queryResult.getString("Color");
                 Integer queryEnginePower = queryResult.getInt("EnginePower");
                 Float queryDailyLendingPrice = queryResult.getFloat("DailyLendingPrice");
+                Integer queryMaintance = queryResult.getInt("NeedMaintance");
+                Integer queryActive = queryResult.getInt("Active");
+                String queryAdditionalInfo = queryResult.getString("AdditionalInfo");
 
-
-                clientCarListModelObservableList.add(new ClientCarListModel(queryCarID, queryCarModelName, queryManufacturerName, queryCarTypeName, queryColor, queryEnginePower, queryDailyLendingPrice));
+                if(eval == 1){
+                    clientCarListModelObservableList.add(new ClientCarListModel(queryCarID, queryCarModelName, queryManufacturerName, queryCarTypeName, queryColor, queryEnginePower, queryDailyLendingPrice, queryMaintance, queryActive, queryAdditionalInfo));
+                }
+                else if (eval == 2){
+                    clientCarListModelObservableList.add(new ClientCarListModel(queryCarID, queryCarModelName, queryManufacturerName, queryCarTypeName, queryColor, queryEnginePower, queryDailyLendingPrice));
+                }
             }
 
             carIDTableColumn.setCellValueFactory(new PropertyValueFactory<>("carID"));
@@ -137,9 +191,8 @@ public class ListOfCarsController implements Initializable {
             colorTableColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
             enginePowerTableColumn.setCellValueFactory(new PropertyValueFactory<>("enginePower"));
             costPerDayTableColumn.setCellValueFactory(new PropertyValueFactory<>("dailyLendingPrice"));
-
-            //add cell of button edit
-
+            maintanceTableColumn.setCellValueFactory(new PropertyValueFactory<>("maintance"));
+            //activeTableColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
 
             carListModelTableView.setItems(clientCarListModelObservableList);
 
@@ -159,7 +212,6 @@ public class ListOfCarsController implements Initializable {
                 else if (clientCarListModel.getEnginePower().toString().contains(searchKeyword)) return true;
                 else if (clientCarListModel.getDailyLendingPrice().toString().contains(searchKeyword)) return true;
                 else return false;
-
             }));
 
             SortedList<ClientCarListModel> sortedData = new SortedList<>(filteredData);
@@ -167,7 +219,6 @@ public class ListOfCarsController implements Initializable {
             sortedData.comparatorProperty().bind(carListModelTableView.comparatorProperty());
 
             carListModelTableView.setItems(sortedData);
-
 
                 Callback<TableColumn<ClientCarListModel, String>, TableCell<ClientCarListModel, String>> cellFactory = (TableColumn<ClientCarListModel, String> param) -> {
                     // make cell containing buttons
@@ -179,11 +230,8 @@ public class ListOfCarsController implements Initializable {
                             //that cell created only on non-empty rows
                             if (empty) {
                                 setGraphic(null);
-
                             } else {
-
-                                //FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.CAR);
-                                Button editButton = new Button("Order");
+                                Button editButton = new Button(buttonText);
                                 editButton.setStyle("-fx-background-color: #1aa3ff;" +
                                         "");
                                 editButton.setDisable(!showOrderButtons);
@@ -191,25 +239,35 @@ public class ListOfCarsController implements Initializable {
                                 editButton.setOnMouseClicked((MouseEvent event) -> {
                                     carListModelTableView.getSelectionModel().select(this.getIndex());
                                     carRecord = carListModelTableView.getSelectionModel().getSelectedItem();
-
                                     FXMLLoader loader = new FXMLLoader();
-                                    loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
+
+                                    if(eval == 1) {
+                                        loader.setLocation(getClass().getResource("EmployeePanel/employeeCarsViewWindow.fxml"));
+                                    }
+                                    else if (eval == 2){
+                                        loader.setLocation(getClass().getResource("makeAReservationWindow.fxml"));
+                                    }
+
                                     try {
                                         loader.load();
                                     } catch (IOException ex) {
                                         ex.printStackTrace();
                                     }
 
-                                    MakeAReservationController makeAReservationController = loader.getController();
-                                    makeAReservationController.setFields(carRecord.getCarID(), carRecord.getCarModelName(), carRecord.getManufacturerName(), carRecord.getCarTypeName(),
-                                            carRecord.getColor(), carRecord.getEnginePower(),carRecord.getDailyLendingPrice(),startDatePicker.getValue(),endDatePicker.getValue());
+                                    if(eval == 1){
+                                        EmployeeCarsController employeeCarsController = loader.getController();
+                                        employeeCarsController.setFields(carRecord.getCarID());
+                                    }
+                                    else if(eval == 2){
+                                        MakeAReservationController makeAReservationController = loader.getController();
+                                        makeAReservationController.setFields(carRecord.getCarID(), carRecord.getCarModelName(), carRecord.getManufacturerName(), carRecord.getCarTypeName(),
+                                                carRecord.getColor(), carRecord.getEnginePower(),carRecord.getDailyLendingPrice(),startDatePicker.getValue(),endDatePicker.getValue());
+                                    }
                                     Parent parent = loader.getRoot();
                                     Stage stage = new Stage();
                                     stage.setScene(new Scene(parent));
                                     stage.initStyle(StageStyle.UTILITY);
                                     stage.show();
-
-
                                 });
 
                                 HBox manageBtn = new HBox(editButton);
@@ -219,21 +277,16 @@ public class ListOfCarsController implements Initializable {
                                 setGraphic(manageBtn);
                             }
                             setText(null);
-
                         }
 
                     };
                 };
                 reservationTableColumn.setCellFactory(cellFactory);
                 carListModelTableView.setItems(sortedData);
-
-
             } catch(SQLException e){
                 Logger.getLogger(ListOfCarsController.class.getName()).log(Level.SEVERE, null, e);
                 e.printStackTrace();
             }
-
-
     }
 
     public void setClientAccessLevel(Connection connectDB)
@@ -247,6 +300,24 @@ public class ListOfCarsController implements Initializable {
             while(queryResult.next())
             {
                 if(queryResult.getInt(1)==1) DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.VERIFIED;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void setEmployeeAccessLevel(Connection connectDB)
+    {
+        DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.UNVERIFIED;
+        String query = "select JobID from Employees where EmployeeID="+DatabaseConnection.loggedID;
+        try {
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(query);
+
+            while(queryResult.next())
+            {
+                if(queryResult.getInt(1)==4 || queryResult.getInt(1) == 5) DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.MANAGER;
+                else DatabaseConnection.accessLevel= DatabaseConnection.AccessLevelEnum.EMPLOYEE;
             }
         } catch (SQLException e){
             e.printStackTrace();
