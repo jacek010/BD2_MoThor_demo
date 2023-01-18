@@ -23,7 +23,7 @@
             <Line endX="-115.0" endY="-33.0" layoutX="481.0" layoutY="41.0" startX="-115.0" startY="31.0" stroke="WHITE" strokeLineCap="ROUND" strokeWidth="3.0" />
             <Label fx:id="loggedAsLabel" alignment="TOP_LEFT" layoutX="375.0" layoutY="12.0" prefHeight="61.0" prefWidth="274.0" text="Logged as:" textFill="WHITE" wrapText="true">
                <font>
-                  <Font name="Segoe UI Black" size="21.0" />
+                  <Font name="Segoe UI Black" size="13.0" />
                </font>
             </Label>
             <Button fx:id="exitButton" layoutX="665.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButtonOnAction" prefHeight="19.0" prefWidth="64.0" style="-fx-background-color: #8fc5e9;" text="Exit" textFill="WHITE">
