@@ -101,23 +101,24 @@ public class EmployeeCarsController {
         Connection connectDB = connectNow.getConnection();
         Statement statement = connectDB.createStatement();
 
-        impDecomission = ((impDecomission == 1)? 0 : 1 );
-        String deleteQuery = "UPDATE Cars SET Commisioned="+impDecomission+" WHERE CarID="+impCarID;
+
 
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION);
         if(impDecomission == 1) {
-            deleteAlert.setTitle("You are recomission car!");
-            deleteAlert.setContentText("Please confirm that you want to recomission car!");
+            deleteAlert.setTitle("You are recommissioning car!");
+            deleteAlert.setContentText("Please confirm that you want to recommission car!");
         }
         else {
 
-            deleteAlert.setTitle("You are decomissioning car!");
-            deleteAlert.setContentText("Please confirm that you want to decomission car!");
+            deleteAlert.setTitle("You are decommissioning car!");
+            deleteAlert.setContentText("Please confirm that you want to decommission car!");
         }
 
         Optional<ButtonType> resultOfConfirmation=deleteAlert.showAndWait();
         if(resultOfConfirmation.get()==ButtonType.OK){
             //System.out.println(deleteQuery);
+            impDecomission = ((impDecomission == 1)? 0 : 1 );
+        String deleteQuery = "UPDATE Cars SET Commisioned="+impDecomission+" WHERE CarID="+impCarID;
             this.decomissionLabel.setText((impDecomission == 1) ? "Decomissioned" : "Active");
             statement.executeQuery(deleteQuery);
             Stage stage = (Stage) deleteCarButton.getScene().getWindow();
@@ -164,11 +165,11 @@ public class EmployeeCarsController {
         this.additionalInfoTextArea.setText(impAdditionalInfo);
 
         if(impDecomission == 1) {
-            this.deleteCarButton.setText("Recommision car");
+            this.deleteCarButton.setText("Recommission car");
             this.deleteCarButton.setStyle("-fx-background-color: #1aa3ff");
         }
         else {
-            this.deleteCarButton.setText("Commision car");
+            this.deleteCarButton.setText("Decommission car");
             this.deleteCarButton.setStyle("-fx-background-color: c43e3e");
         }
     }

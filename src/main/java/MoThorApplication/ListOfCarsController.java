@@ -94,7 +94,13 @@ public class ListOfCarsController implements Initializable {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String clientViewQuery="SELECT * FROM ClientView";
+        String clientViewQuery;
+              if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED||DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.UNVERIFIED){
+            clientViewQuery ="SELECT * FROM ClientView WHERE Commisioned=0";
+        }
+        else{
+            clientViewQuery ="SELECT * FROM ClientView";
+        }
 
         if(DatabaseConnection.accessLevel == DatabaseConnection.AccessLevelEnum.EMPLOYEE || DatabaseConnection.accessLevel == DatabaseConnection.AccessLevelEnum.MANAGER){
             eval = 1;
@@ -126,7 +132,7 @@ public class ListOfCarsController implements Initializable {
                 else if(endDatePicker.getValue().isBefore(newValue.plusDays(5))) endDatePicker.setValue(newValue.plusDays(5));
                 String startDate = startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
+                String clientViewQuery2="select * from ClientView where Commisioned=0 AND CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
                 showCarList(connectDB, clientViewQuery2);
 
                 if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
@@ -136,7 +142,7 @@ public class ListOfCarsController implements Initializable {
                 else if(newValue.isBefore(startDatePicker.getValue().plusDays(5))) startDatePicker.setValue(newValue.minusDays(5));
                 String startDate = startDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 String endDate = endDatePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                String clientViewQuery2="select * from ClientView where CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
+                String clientViewQuery2="select * from ClientView where Commisioned=0 AND CarID not IN (select CarID from Orders where (StartDate between '"+startDate+"' AND'"+endDate+"')or(EndDate between '"+startDate+"'and'"+endDate+"'))";
                 showCarList(connectDB, clientViewQuery2);
 
                 if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED)showOrderButtons=true;
@@ -150,7 +156,13 @@ public class ListOfCarsController implements Initializable {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String clientViewQuery="SELECT * FROM ClientView";
+        String clientViewQuery;
+              if(DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.VERIFIED||DatabaseConnection.accessLevel== DatabaseConnection.AccessLevelEnum.UNVERIFIED){
+            clientViewQuery ="SELECT * FROM ClientView WHERE Commisioned=0";
+        }
+        else{
+            clientViewQuery ="SELECT * FROM ClientView";
+        }
         showCarList(connectDB,clientViewQuery);
     }
 
@@ -159,7 +171,7 @@ public class ListOfCarsController implements Initializable {
         carListModelTableView.setItems(null);
         clientCarListModelObservableList.clear();
 
-        query ="SELECT * FROM ClientView";
+
         try {
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(query);
