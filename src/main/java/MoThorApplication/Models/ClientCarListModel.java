@@ -10,7 +10,7 @@ public class ClientCarListModel {
     String color;
     Integer enginePower;
     Float dailyLendingPrice;
-    Integer maintance;
+    Integer maintenance;
     Integer active;
     String additionalInfo;
 
@@ -24,7 +24,7 @@ public class ClientCarListModel {
         this.dailyLendingPrice = dailyLendingPrice;
     }
 
-    public ClientCarListModel(Integer carID, String carModelName, String manufacturerName, String carTypeName, String color, Integer enginePower, Float dailyLendingPrice, Integer maintance, Integer active, String additionalInfo) {
+    public ClientCarListModel(Integer carID, String carModelName, String manufacturerName, String carTypeName, String color, Integer enginePower, Float dailyLendingPrice, Integer maintenance, Integer active, String additionalInfo) {
         this.carID=carID;
         this.carModelName = carModelName;
         this.manufacturerName = manufacturerName;
@@ -32,7 +32,7 @@ public class ClientCarListModel {
         this.color = color;
         this.enginePower = enginePower;
         this.dailyLendingPrice = dailyLendingPrice;
-        this.maintance = maintance;
+        this.maintenance = maintenance;
         this.active = active;
         this.additionalInfo = additionalInfo;
     }
@@ -94,12 +94,12 @@ public class ClientCarListModel {
     }
 
 
-    public Integer getMaintance() {
-        return maintance;
+    public Integer getMaintenance() {
+        return maintenance;
     }
 
-    public void setMaintance(Integer maintance) {
-        this.maintance = maintance;
+    public void setMaintenance(Integer maintenance) {
+        this.maintenance = maintenance;
     }
 
     public Integer getActive() {

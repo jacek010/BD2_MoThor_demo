@@ -41,7 +41,7 @@ public class EmployeeCarsController {
     @FXML
     private TextArea additionalInfoTextArea;
     @FXML
-    private CheckBox maintanceCheckBox;
+    private CheckBox maintenanceCheckBox;
     @FXML
     private CheckBox activeCheckBox;
     @FXML
@@ -57,7 +57,7 @@ public class EmployeeCarsController {
     private Label decomissionLabel;
 
     private String impCarName, impCarType, impCarManufacturer, impCarColor, impAdditionalInfo;
-    private Integer impCarID, impCarEnginePower, impMaintance, impActive, impDecomission;
+    private Integer impCarID, impCarEnginePower, impMaintenance, impActive, impDecomission;
     private Float impCarPricePerDay;
 
     public void onChanged(ActionEvent actionEvent) {
@@ -67,7 +67,7 @@ public class EmployeeCarsController {
         //impCarColor = carColorTextField.getText();
         //impCarEnginePower = carEnginePowerTextField.getText();
         //impCarPricePerDay = carPricePerDayTextField.getText();
-        //impMaintance = ((maintanceCheckBox.isSelected()) ? 1 : 0);
+        //impMaintenance = ((maintenanceCheckBox.isSelected()) ? 1 : 0);
         //impAdditionalInfo = additionalInfoTextArea.getText();
         //impActive = activeCheckBox.toString();
     }
@@ -78,11 +78,11 @@ public class EmployeeCarsController {
             Connection connectDB = connectNow.getConnection();
             Statement statement = connectDB.createStatement();
 
-            impMaintance = ((maintanceCheckBox.isSelected()) ? 1 : 0);
+            impMaintenance = ((maintenanceCheckBox.isSelected()) ? 1 : 0);
             impAdditionalInfo = additionalInfoTextArea.getText();
 
             String updateOrder="UPDATE Cars SET CarModel="+impCarName+"  WHERE OrderID="+impCarID;
-            String updateQuery = "UPDATE Cars SET NeedMaintance="+impMaintance+", AdditionalInfo ='"+impAdditionalInfo+"' WHERE CarID= "+impCarID;
+            String updateQuery = "UPDATE Cars SET NeedMaintance="+impMaintenance+", AdditionalInfo ='"+impAdditionalInfo+"' WHERE CarID= "+impCarID;
             statement.executeQuery(updateQuery);
 
             Stage stage = (Stage) submitChanges.getScene().getWindow();
@@ -145,7 +145,7 @@ public class EmployeeCarsController {
             impCarColor = results.getString("Color");
             impCarEnginePower = results.getInt("EnginePower");
             impCarPricePerDay = results.getFloat("DailyLendingPrice");
-            impMaintance = results.getInt("NeedMaintance");
+            impMaintenance = results.getInt("NeedMaintance");
             impActive = results.getInt("Active");
             impAdditionalInfo = results.getString("AdditionalInfo");
             impDecomission = results.getInt("Commisioned");
@@ -158,7 +158,7 @@ public class EmployeeCarsController {
         this.carColorTextField.setText(impCarColor);
         this.carEnginePowerTextField.setText(impCarEnginePower.toString());
         this.carPricePerDayTextField.setText(impCarPricePerDay.toString());
-        this.maintanceCheckBox.setSelected((impMaintance == 0) ? false: true);
+        this.maintenanceCheckBox.setSelected((impMaintenance == 0) ? false: true);
         //this.activeCheckBox.setSelected((impActive== 0) ? false: true);
         this.decomissionLabel.setText((impDecomission == 1) ? "Decomissioned" : "Active");
         this.additionalInfoTextArea.setText(impAdditionalInfo);

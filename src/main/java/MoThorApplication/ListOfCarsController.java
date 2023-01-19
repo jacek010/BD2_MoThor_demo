@@ -56,7 +56,7 @@ public class ListOfCarsController implements Initializable {
     @FXML
     private TableColumn<ClientCarListModel, Float> costPerDayTableColumn;
     @FXML
-    private TableColumn<ClientCarListModel, Integer> maintanceTableColumn;
+    private TableColumn<ClientCarListModel, Integer> maintenanceTableColumn;
     @FXML
     private TableColumn<ClientCarListModel, Integer> activeTableColumn;
 
@@ -117,7 +117,7 @@ public class ListOfCarsController implements Initializable {
             showOrderButtons=false;
             startDatePicker.setVisible(true);
             endDatePicker.setVisible(true);
-            maintanceTableColumn.setVisible(false);
+            maintenanceTableColumn.setVisible(false);
             //activeTableColumn.setVisible(false);
             setClientAccessLevel(connectDB);
             loggedAsLabel.setText("You are logged as: "+DatabaseConnection.firstName+" "+DatabaseConnection.lastName);
@@ -172,12 +172,12 @@ public class ListOfCarsController implements Initializable {
                 String queryColor = queryResult.getString("Color");
                 Integer queryEnginePower = queryResult.getInt("EnginePower");
                 Float queryDailyLendingPrice = queryResult.getFloat("DailyLendingPrice");
-                Integer queryMaintance = queryResult.getInt("NeedMaintance");
+                Integer queryMaintenance = queryResult.getInt("NeedMaintance");
                 Integer queryActive = queryResult.getInt("Active");
                 String queryAdditionalInfo = queryResult.getString("AdditionalInfo");
 
                 if(eval == 1){
-                    clientCarListModelObservableList.add(new ClientCarListModel(queryCarID, queryCarModelName, queryManufacturerName, queryCarTypeName, queryColor, queryEnginePower, queryDailyLendingPrice, queryMaintance, queryActive, queryAdditionalInfo));
+                    clientCarListModelObservableList.add(new ClientCarListModel(queryCarID, queryCarModelName, queryManufacturerName, queryCarTypeName, queryColor, queryEnginePower, queryDailyLendingPrice, queryMaintenance, queryActive, queryAdditionalInfo));
                 }
                 else if (eval == 2){
                     clientCarListModelObservableList.add(new ClientCarListModel(queryCarID, queryCarModelName, queryManufacturerName, queryCarTypeName, queryColor, queryEnginePower, queryDailyLendingPrice));
@@ -191,7 +191,7 @@ public class ListOfCarsController implements Initializable {
             colorTableColumn.setCellValueFactory(new PropertyValueFactory<>("color"));
             enginePowerTableColumn.setCellValueFactory(new PropertyValueFactory<>("enginePower"));
             costPerDayTableColumn.setCellValueFactory(new PropertyValueFactory<>("dailyLendingPrice"));
-            maintanceTableColumn.setCellValueFactory(new PropertyValueFactory<>("maintance"));
+            maintenanceTableColumn.setCellValueFactory(new PropertyValueFactory<>("maintenance"));
             //activeTableColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
 
             carListModelTableView.setItems(clientCarListModelObservableList);
